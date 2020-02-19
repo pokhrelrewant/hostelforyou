@@ -2,12 +2,13 @@ import React from "react";
 
 const Navbar = () => {
   return (
-    <nav className='navbar navbar-expand-sm bg-dark navbar-dark sticky-top  py-0'>
+    <nav className='navbar navbar-expand-sm navbar-light bg-light sticky-top py-2 px-5 '>
       <a className='navbar-brand py-0' href='/'>
         <img
-          src={process.env.PUBLIC_URL + "/CompanyLogo2.svg"}
-          height='40'
-          width='80'
+          src='/CompanyLogo.svg'
+          height='50px'
+          alt='logo'
+          style={{ display: "block", margin: "0 auto" }}
         />
       </a>
       <ul className='navbar-nav ml-auto py-0'>
@@ -17,12 +18,12 @@ const Navbar = () => {
           </a>
         </li>
         <li className='nav-item '>
-          <a className='nav-link' href='/form'>
+          <a className='nav-link' href='/search'>
             Search
           </a>
         </li>
         <li className='nav-item '>
-          <a className='nav-link' href='/'>
+          <a className='nav-link' href='/contact'>
             Contact
           </a>
         </li>

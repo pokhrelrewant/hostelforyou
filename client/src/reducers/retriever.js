@@ -26,7 +26,8 @@ export default function(state = initialState, action) {
     case SELECT_HOSTEL:
       return {
         ...state,
-        hostel: payload
+        hostel: payload,
+        loading: false
       };
     default:
       return {

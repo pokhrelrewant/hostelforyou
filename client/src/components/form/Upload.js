@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import axios from "axios";
+import axios from "../../config/axios";
 import { setAlert } from "../../actions/alert";
 import { connect } from "react-redux";
 
@@ -27,15 +27,11 @@ const Upload = props => {
     // console.log(formData);
 
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/upload",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
+      await axios.post("/api/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
         }
-      );
+      });
       setAlert("Images Uploaded Successfully", "success");
     } catch (error) {
       if (error.response.status === 500) {

@@ -1,39 +1,52 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import axios from "axios";
 import Carousel from "./Carousel";
 import getPath from "../../actions/getPath";
 import "./hostelDetail.css";
+import Navbar from "../layout/Navbar";
+import retHostel from "../../actions/retHostel";
+
+var count = 0;
 
 const HostelDetail = props => {
-  const { hostel, getPath, path } = props;
-  getPath(hostel.photos);
+  const { hostel, getPath, path, retHostel, loading } = props;
+
+  useEffect(() => {
+    if (count++ < 2) {
+      if (props.match.path === "/hostel/:id") {
+        console.log("hellow");
+        retHostel(props.match.params.id);
+        return () => {
+          console.log("rreewwww");
+          if (hostel) getPath(hostel.photos);
+          else console.log("firsttime");
+        };
+      }
+    }
+  }, [hostel]);
+
   return (
     <Fragment>
+      <Navbar />
       <div>
         {/* Overlay effect when opening sidebar on small screens */}
-        <div
-          className='w3-overlay w3-hide-large'
-          onclick='w3_close()'
-          style={{ cursor: "pointer" }}
-          title='close side menu'
-          id='myOverlay'
-        />
+
         {/* !PAGE CONTENT! */}
-        <div className='w3-main w3-white' style={{ marginLeft: "260px" }}>
-          {/* Push down content on small screens */}
-          <div className='w3-hide-large' style={{ marginTop: "80px" }} />
+        <div className='container container-sm containerNirav my-2 my-sm-4'>
           {/* Slideshow Header */}
-          <div id='demo' className='carousel slide' data-ride='carousel'>
-            <h2 className='w3-text-green'>{hostel.name}</h2>
-            <h4>{hostel.location}</h4>
-            <div>{Carousel(hostel.photos, path)}</div>
-          </div>
-          <div className='w3-container'>
+          {!loading && (
+            <div id='demo' className='carousel slide' data-ride='carousel'>
+              <h2 className='w3-text-green'>{hostel.name}</h2>
+              <h4>{hostel.location}</h4>
+              <div>{Carousel(hostel.photos, path)}</div>
+            </div>
+          )}
+          <div className='mt-3 w3-container'>
             <h4>
               <strong>Nearby Institutions</strong>
             </h4>
+
             <div className='w3-row w3-large'>
               <div className='w3-col s6'>
                 <p>Max people: 4</p>
@@ -115,7 +128,7 @@ const HostelDetail = props => {
             </p>
             <p>
               <div>
-                <Link to='/book' class='btn btn-primary btn-block'>
+                <Link to='/book' className='btn btn-primary btn-block'>
                   Book Now
                 </Link>
               </div>
@@ -137,20 +150,6 @@ const HostelDetail = props => {
             Email: mail@mail.com
             <br />
             <p>Questions? Go ahead, ask them:</p>
-            <footer
-              className='w3-container w3-padding-16'
-              style={{ marginTop: "32px" }}
-            >
-              Powered by{" "}
-              <a
-                href='https://www.w3schools.com/w3css/default.asp'
-                title='W3.CSS'
-                target='_blank'
-                className='w3-hover-text-green'
-              >
-                w3.css
-              </a>
-            </footer>
             {/* End page content */}
           </div>
         </div>
@@ -161,7 +160,8 @@ const HostelDetail = props => {
 
 const mapStateToProps = state => ({
   hostel: state.retriever.hostel,
-  path: state.getPath.path
+  path: state.getPath.path,
+  loading: state.getPath.loading
 });
 
-export default connect(mapStateToProps, { getPath })(HostelDetail);
+export default connect(mapStateToProps, { getPath, retHostel })(HostelDetail);

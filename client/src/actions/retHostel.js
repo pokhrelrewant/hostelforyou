@@ -1,18 +1,22 @@
 import axios from "../config/axios";
-import { GET_HOSTEL, RETRIEVE_ERROR } from "./types";
+import { SELECT_HOSTEL, RETRIEVE_ERROR } from "./types";
 
-const retriever = (name, location) => async dispatch => {
+const retHostel = _id => async dispatch => {
   const config = {
     headers: {
       "Content-Type": "application/json"
     }
   };
-  const body = JSON.stringify({ name, location });
+  console.log(_id);
   try {
-    const res = await axios.post("/api/retrieve_hostels", body, config);
+    const res = await axios.post(
+      "/api/retrieve_hostels_id",
+      { _id: _id },
+      config
+    );
 
     dispatch({
-      type: GET_HOSTEL,
+      type: SELECT_HOSTEL,
       payload: res.data
     });
   } catch (err) {
@@ -23,4 +27,4 @@ const retriever = (name, location) => async dispatch => {
   }
 };
 
-export default retriever;
+export default retHostel;

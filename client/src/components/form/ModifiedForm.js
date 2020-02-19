@@ -1,5 +1,4 @@
 import React, { Fragment, Component } from "react";
-import { connect } from "react-redux";
 import Input from "./Input";
 import InLineInput from "./InLineInput";
 import Button from "./Button";
@@ -7,7 +6,7 @@ import Select from "./Select";
 import CheckBox from "./CheckBox";
 import Upload from "./Upload";
 import "./Login.css";
-import axios from "axios";
+import axios from "../../config/axios";
 import uuid from "uuid";
 
 // this needs to be imported from the database
@@ -150,7 +149,7 @@ class ModifiedFrom extends Component {
   };
 
   generateID() {
-    this.state.newUser.id = uuid.v4();
+    this.setState({ newUser: { id: uuid.v4() } });
     return this.state.newUser.id;
   }
 
@@ -253,11 +252,7 @@ class ModifiedFrom extends Component {
       }
     };
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/add_hostel",
-        userData,
-        config
-      );
+      const res = await axios.post("/api/add_hostel", userData, config);
       console.log(res.data);
     } catch (err) {}
   }

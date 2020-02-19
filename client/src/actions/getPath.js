@@ -1,10 +1,10 @@
-import axios from "axios";
+import axios from "../config/axios";
 import { GET_PATH, PATH_ERROR } from "./types";
 
 const getPath = imgFolder => async dispatch => {
   try {
     const res = await axios.post(
-      "http://localhost:5000/api/pathCheck",
+      "/api/pathCheck",
       {
         imgFolder
       },

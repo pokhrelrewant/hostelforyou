@@ -4,20 +4,21 @@ import { Link } from "react-router-dom";
 import selectHostel from "../../actions/selectHostel";
 
 const HostelCard = props => {
-  const { hostel, loading, selectHostel } = props;
+  const { hostel, selectHostel } = props;
   const hostelData = hostel.hostels.map(hos => (
-    <Link
-      to='/hosteldetail'
-      onClick={() => {
-        const temp = hos._id;
-        let clickedHostel = hostel.hostels.filter(hos => {
-          return hos._id === temp;
-        });
-        selectHostel(clickedHostel);
-      }}
-    >
-      <div className='card-deck' style={{ width: "30rem" }} key={hos._id}>
-        <div className='card-body'>
+    <div className='card' key={hos._id}>
+      <Link
+        to={"/hostel/" + hos._id}
+        onClick={() => {
+          const temp = hos._id;
+          let clickedHostel = hostel.hostels.filter(hos => {
+            return hos._id === temp;
+          });
+          selectHostel(clickedHostel);
+        }}
+        style={{ textDecoration: "none", color: "inherit" }}
+      >
+        <div className='card-body' key={hos._id}>
           <h5 className='card-title'>{hos.name}</h5>
           <h6 className='card-subtitle mb-2 text-muted'>{hos.location}</h6>
           <p className='card-text'>
@@ -25,15 +26,11 @@ const HostelCard = props => {
             bulk of the card's content.
           </p>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   ));
 
-  return (
-    <Fragment>
-      <div>{hostelData}</div>
-    </Fragment>
-  );
+  return <Fragment>{hostelData}</Fragment>;
 };
 
 const mapStateToProps = state => ({

@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState } from "react";
 import retriever from "../../actions/retriever";
 import { connect } from "react-redux";
 import HostelCard from "../hostelCard/HostelCard";
@@ -10,7 +10,7 @@ const Form = ({ retriever, loading, hostel, error }) => {
     location: ""
   });
 
-  const { name, location, topic } = formData;
+  const { name, location } = formData;
 
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });

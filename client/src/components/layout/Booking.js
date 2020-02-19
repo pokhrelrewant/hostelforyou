@@ -1,6 +1,6 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState } from "react";
 import MyDocument from "../pdfTemplate/index";
-import { ReactPDF, PDFDownloadLink } from "@react-pdf/renderer";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import { connect } from "react-redux";
 
 const Booking = hostel => {

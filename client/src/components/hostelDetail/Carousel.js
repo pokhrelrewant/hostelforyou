@@ -9,6 +9,7 @@ const Carousel = (imgFolder, images) => {
         <img
           className='d-block w-100'
           src={process.env.PUBLIC_URL + `/uploads/${imgFolder}/${images[i]}`}
+          style={{ height: "500px" }}
           alt=''
         />
       </div>
@@ -34,10 +35,14 @@ const Carousel = (imgFolder, images) => {
 
           {indicators}
         </ol>
-        <div className='carousel-inner'>
+        <div
+          className='carousel-inner'
+          style={{ width: "100%", height: "500px" }}
+        >
           <div className='carousel-item active'>
             <img
               className='d-block w-100'
+              height='500px'
               src={
                 process.env.PUBLIC_URL + `/uploads/${imgFolder}/${images[0]}`
               }

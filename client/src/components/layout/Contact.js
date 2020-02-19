@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from "react";
+import Navbar from "./Navbar";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -18,6 +19,7 @@ const Contact = () => {
 
   return (
     <Fragment>
+      <Navbar />
       <form onSubmit={"mailto:pokhrelrewant@gmail.com"}>
         <div className=' container mt-4'>
           <label> Name</label>
@@ -31,18 +33,16 @@ const Contact = () => {
           />
         </div>
 
-        <div>
-          <div className=' container mt-3'>
-            <label> Location</label>
-            <input
-              type='text'
-              value={location}
-              name='location'
-              onChange={e => onChange(e)}
-              className='form-control'
-              placeholder='Enter Location'
-            />
-          </div>
+        <div className=' container mt-3'>
+          <label> Location</label>
+          <input
+            type='text'
+            value={location}
+            name='location'
+            onChange={e => onChange(e)}
+            className='form-control'
+            placeholder='Enter Location'
+          />
         </div>
         <div className=' container mt-4'>
           <button type='submit' className='btn btn-primary btn-block'>

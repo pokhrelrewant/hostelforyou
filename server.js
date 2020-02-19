@@ -23,6 +23,7 @@ app.get("/", (req, res) => res.send("API Running"));
 
 app.use("/api/add_hostel", require("./routes/api/add_hostel"));
 app.use("/api/retrieve_hostels", require("./routes/api/retrieve_hostel"));
+app.use("/api/retrieve_hostels_id", require("./routes/api/retrieve_hostel_id"));
 app.use("/api/upload", require("./routes/api/upload"));
 app.use("/api/pathCheck", require("./routes/api/pathCheck"));
 

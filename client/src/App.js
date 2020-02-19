@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Navbar from "./components/layout/Navbar";
 import Landing from "./components/layout/Landing";
 import Booking from "./components/layout/Booking";
 import Form from "./components/layout/Form";
@@ -21,7 +20,6 @@ const App = () => (
   <Provider store={store}>
     <Router>
       <Fragment>
-        {/* <Navbar /> */}
         <Alert />
         <Switch>
           <Route exact path='/' component={Landing} />
@@ -34,6 +32,7 @@ const App = () => (
           <Route exact path='/signup' component={SignUp} />
           <Route exact path='/upload' component={Upload} />
           <Route exact path='/contact' component={Contact} />
+          <Route exact path='/hostel/:id' component={HostelDetail} />
           {/* <Route exact path='/doc' component={MyDocument} /> */}
         </Switch>
       </Fragment>
