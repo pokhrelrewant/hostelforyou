@@ -2,6 +2,7 @@ import React, { Fragment, useState } from "react";
 import MyDocument from "../pdfTemplate/index";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { connect } from "react-redux";
+import Navbar from "../layout/Navbar";
 
 const Booking = hostel => {
   console.log(hostel);
@@ -34,6 +35,7 @@ const Booking = hostel => {
 
   return (
     <Fragment>
+      <Navbar />
       <form onSubmit={onSubmit}>
         <div className='form-group formFields'>
           <div className=' container'>
