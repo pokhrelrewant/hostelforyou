@@ -1,6 +1,6 @@
 import React from "react";
 import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
-import { connect } from "react-redux";
+//import { connect } from "react-redux";
 
 const styles = StyleSheet.create({
   page: {
@@ -34,9 +34,9 @@ const MyDocument = props => (
   </Document>
 );
 
-const mapStateToProps = state => ({
-  hostels: state.retriever,
-  loading: state.retriever.loading
-});
+//const mapStateToProps = state => ({
+ // hostels: state.retriever,
+ // loading: state.retriever.loading
+//});
 
 export default MyDocument;

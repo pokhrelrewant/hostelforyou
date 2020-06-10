@@ -1,11 +1,11 @@
 import React, { Fragment } from "react";
 
-const Carousel = (imgFolder, images) => {
+const Carousel = ({imgFolder, images}) => {
   let divs = [];
   let indicators = [];
   for (let i = 1; i < images.length; i++) {
     divs.push(
-      <div className='carousel-item'>
+      <div className='carousel-item' key={i}>
         <img
           className='d-block w-100'
           src={process.env.PUBLIC_URL + `/uploads/${imgFolder}/${images[i]}`}
@@ -15,7 +15,7 @@ const Carousel = (imgFolder, images) => {
       </div>
     );
     indicators.push(
-      <li data-target='#carouselExampleIndicators' data-slide-to={i} />
+      <li data-target='#carouselExampleIndicators' data-slide-to={i} key={i} />
     );
   }
 
