@@ -45,7 +45,7 @@ class ModifiedFrom extends Component {
         facilities: [],
         meat: "",
         furnitures: [],
-        about: ""
+        about: "",
       },
 
       laundryOptions: [
@@ -53,7 +53,7 @@ class ModifiedFrom extends Component {
         "Twice a Week",
         "Two Pairs a week",
         "Three Pairs a week",
-        "Unavilable"
+        "Unavilable",
       ],
       meatOptions: ["Once a week", "Twice a Week"],
       facilitiesOptions: [
@@ -62,7 +62,7 @@ class ModifiedFrom extends Component {
         "Running Water",
         "AC",
         "Heater",
-        "Fan"
+        "Fan",
       ],
       furnituresOptions: [
         "Bed",
@@ -73,8 +73,8 @@ class ModifiedFrom extends Component {
         "Floormat",
         "BedSheet",
         "Blanket",
-        "Pillow"
-      ]
+        "Pillow",
+      ],
     };
     this.handleInput = this.handleInput.bind(this);
     this.handleNumbers = this.handleNumbers.bind(this);
@@ -100,16 +100,16 @@ class ModifiedFrom extends Component {
   handleAddInstitutionsField = () => {
     this.setState({
       nearByInstitutions: this.state.nearByInstitutions.concat([
-        { institute: "" }
-      ])
+        { institute: "" },
+      ]),
     });
   };
 
-  handleRemoveInstitutions = index => {
+  handleRemoveInstitutions = (index) => {
     this.setState({
       nearByInstitutions: this.state.nearByInstitutions.filter(
         (s, idx) => index !== idx
-      )
+      ),
     });
   };
 
@@ -127,15 +127,15 @@ class ModifiedFrom extends Component {
 
   handleAddSpecialFeatures = () => {
     this.setState({
-      specialFeatures: this.state.specialFeatures.concat([{ feature: "" }])
+      specialFeatures: this.state.specialFeatures.concat([{ feature: "" }]),
     });
   };
 
-  handleRemoveSpecialFeatures = index => {
+  handleRemoveSpecialFeatures = (index) => {
     this.setState({
       specialFeatures: this.state.specialFeatures.filter(
         (s, idx) => index !== idx
-      )
+      ),
     });
   };
 
@@ -149,7 +149,7 @@ class ModifiedFrom extends Component {
   };
 
   generateID() {
-    this.setState({ newUser: { id: uuid.v4() } });
+    // this.setState({ newUser: { id: uuid.v4() } });
     return this.state.newUser.id;
   }
 
@@ -157,7 +157,7 @@ class ModifiedFrom extends Component {
     let value = e.target.value;
     let name = e.target.name;
     this.setState(
-      prevState => ({ newUser: { ...prevState.newUser, [name]: value } }),
+      (prevState) => ({ newUser: { ...prevState.newUser, [name]: value } }),
       () => console.log(this.state.newUser)
     );
   }
@@ -165,7 +165,7 @@ class ModifiedFrom extends Component {
     let value = e.target.value;
     let name = e.target.name;
     this.setState(
-      prevState => ({ newUser: { ...prevState.newUser, [name]: value } }),
+      (prevState) => ({ newUser: { ...prevState.newUser, [name]: value } }),
       () => console.log(this.state.newUser)
     );
   }
@@ -175,14 +175,14 @@ class ModifiedFrom extends Component {
 
     if (this.state.newUser.facilities.indexOf(newSelection) > -1) {
       newSelectionArray = this.state.newUser.facilities.filter(
-        s => s !== newSelection
+        (s) => s !== newSelection
       );
     } else {
       newSelectionArray = [...this.state.newUser.facilities, newSelection];
     }
 
-    this.setState(prevState => ({
-      newUser: { ...prevState.newUser, facilities: newSelectionArray }
+    this.setState((prevState) => ({
+      newUser: { ...prevState.newUser, facilities: newSelectionArray },
     }));
   }
   handleFurnitures(e) {
@@ -191,14 +191,14 @@ class ModifiedFrom extends Component {
 
     if (this.state.newUser.furnitures.indexOf(newSelection) > -1) {
       newSelectionArray = this.state.newUser.furnitures.filter(
-        s => s !== newSelection
+        (s) => s !== newSelection
       );
     } else {
       newSelectionArray = [...this.state.newUser.furnitures, newSelection];
     }
 
-    this.setState(prevState => ({
-      newUser: { ...prevState.newUser, furnitures: newSelectionArray }
+    this.setState((prevState) => ({
+      newUser: { ...prevState.newUser, furnitures: newSelectionArray },
     }));
   }
 
@@ -217,17 +217,17 @@ class ModifiedFrom extends Component {
             single: this.state.newUser.monthlyFeeOneSeater,
             double: this.state.newUser.monthlyFeeTwoSeater,
             triple: this.state.newUser.monthlyFeeThreeSeater,
-            fourS: this.state.newUser.monthlyFeeFourSeater
-          }
-        ]
+            fourS: this.state.newUser.monthlyFeeFourSeater,
+          },
+        ],
       },
       availableSeating: [
         {
           single: this.state.newUser.totalSeatOne,
           double: this.state.newUser.totalSeatTwo,
           triple: this.state.newUser.totalSeatThree,
-          fourS: this.state.newUser.totalSeatFour
-        }
+          fourS: this.state.newUser.totalSeatFour,
+        },
       ],
       hostelFeatures: [
         {
@@ -235,21 +235,21 @@ class ModifiedFrom extends Component {
           notableFeatures: [],
           laundry: [
             {
-              availablePerWeek: this.state.newUser.laundry
-            }
+              availablePerWeek: this.state.newUser.laundry,
+            },
           ],
-          FurnitureAndClothing: this.state.newUser.furnitures
-        }
+          FurnitureAndClothing: this.state.newUser.furnitures,
+        },
       ],
 
       specialFeatures: JSON.stringify(this.state.specialFeatures),
-      Photos: this.state.newUser.id
+      Photos: this.state.newUser.id,
     };
     console.log(userData.nearbyInstitutions);
     const config = {
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     };
     try {
       const res = await axios.post("/api/add_hostel", userData, config);
@@ -287,8 +287,8 @@ class ModifiedFrom extends Component {
         laundry: "",
         furnitures: [],
         meat: "",
-        specialFeatures: ""
-      }
+        specialFeatures: "",
+      },
     });
   }
 
@@ -330,7 +330,7 @@ class ModifiedFrom extends Component {
                       id='nearByInstitutions'
                       name='nearByInstitutions'
                       value={nearByInstitution.name}
-                      onChange={event =>
+                      onChange={(event) =>
                         this.handleInstitutionsChange(index, event)
                       }
                     />
@@ -566,7 +566,7 @@ class ModifiedFrom extends Component {
                       id='specialFeatures'
                       name='specialFeatures'
                       value={specialFeature.name}
-                      onChange={event =>
+                      onChange={(event) =>
                         this.handleSpecialFeaturesChange(index, event)
                       }
                     />
@@ -627,7 +627,7 @@ class ModifiedFrom extends Component {
   }
 }
 const buttonStyle = {
-  margin: "10px 10px 10px 10px"
+  margin: "10px 10px 10px 10px",
 };
 
 export default ModifiedFrom;

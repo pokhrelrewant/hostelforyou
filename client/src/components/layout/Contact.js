@@ -4,12 +4,12 @@ import Navbar from "./Navbar";
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
-    location: ""
+    location: "",
   });
 
   const { name, location } = formData;
 
-  const onChange = e =>
+  const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   //   const onSubmit = async e => {
@@ -27,7 +27,7 @@ const Contact = () => {
             type='text'
             value={name}
             name='name'
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
             className='form-control'
             placeholder='Enter Name'
           />
@@ -39,7 +39,7 @@ const Contact = () => {
             type='text'
             value={location}
             name='location'
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
             className='form-control'
             placeholder='Enter Location'
           />
