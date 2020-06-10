@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect,useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Carousel from "./Carousel";
@@ -7,45 +7,32 @@ import "./hostelDetail.css";
 import Navbar from "../layout/Navbar";
 import retHostel from "../../actions/retHostel";
 
-var count = 0;
-
-const HostelDetail = props => {
-  const { hostel, getPath, path, retHostel, loading } = props;
-
+const HostelDetail = ({match, hostel, path, retHostel}) => {
+  let [features, setFeatures] = useState({});
   useEffect(() => {
-    if (count++ < 2) {
-      if (props.match.path === "/hostel/:id") {
-        console.log("hellow");
-        retHostel(props.match.params.id);
-        return () => {
-          console.log("rreewwww");
-          if (hostel) getPath(hostel.photos);
-          else console.log("firsttime");
-        };
-      }
+    if (match.path === "/hostel/:id") {
+      retHostel(match.params.id);
     }
-  }, [hostel]);
+  }, [match,retHostel]);
 
+  let i = 1;
   return (
     <Fragment>
       <Navbar />
       <div>
-        {/* Overlay effect when opening sidebar on small screens */}
-
-        {/* !PAGE CONTENT! */}
         <div className='container container-sm containerNirav my-2 my-sm-4'>
-          {/* Slideshow Header */}
-          {!loading && (
             <div id='demo' className='carousel slide' data-ride='carousel'>
-              <h2 className='w3-text-green'>{hostel.name}</h2>
-              <h4>{hostel.location}</h4>
-              <div>{Carousel(hostel.photos, path)}</div>
+              <h2 className='w3-text-green'>{hostel&&hostel.name}</h2>
+              <h4>{hostel&&hostel.location}</h4>
+              <div>{hostel&&(<Carousel imgFolder={hostel.photos} images={hostel.photosPath}/>)}</div>
             </div>
-          )}
+
           <div className='mt-3 w3-container'>
-            <h4>
-              <strong>Nearby Institutions</strong>
-            </h4>
+            <h4> Nearby Institutions </h4>
+            <ul>
+              {hostel && hostel.nearbyInstitutions.map(item => (<li key={i++}>{item}</li>))}
+            </ul>
+
 
             <div className='w3-row w3-large'>
               <div className='w3-col s6'>
@@ -72,39 +59,33 @@ const HostelDetail = props => {
             </h4>
             <div className='w3-row w3-large'>
               <div className='w3-col s6'>
-                <p>
-                  <i className='fa fa-fw fa-shower' /> Shower
-                </p>
-                <p>
-                  <i className='fa fa-fw fa-wifi' /> WiFi
-                </p>
-                <p>
-                  <i className='fa fa-fw fa-tv' /> TV
-                </p>
+                {features["running water"]&&(<p><i className='fa fa-fw fa-shower' />Shower</p>)}
+                {features["free wifi"]&&(<p><i className='fa fa-fw fa-wifi' /> WiFi</p>)}
+                {features["24 hours electricity"]&&(<p><i className='fa fa-fw fa-tv' /> 24 Hour Electricity</p>)}
               </div>
               <div className='w3-col s6'>
-                <p>
-                  <i className='fa fa-fw fa-cutlery' /> Kitchen
-                </p>
-                <p>
-                  <i className='fa fa-fw fa-thermometer' /> Heating
-                </p>
-                <p>
-                  <i className='fa fa-fw fa-wheelchair' /> Accessible
-                </p>
+                {features["kitchen"]&&(<p><i className='fa fa-fw fa-cutlery' /> Kitchen</p>)}
+                {features["heating"]&&(<p><i className='fa fa-fw fa-thermometer' /> Heating</p>)}
+                {features["accessible"]&&(<p><i className='fa fa-fw fa-wheelchair' /> Accessible</p>)}
               </div>
             </div>
             <hr />
-            <h4>
-              <strong>Extra Info</strong>
-            </h4>
-            <p>
-              Our apartment is really clean and we like to keep it that way.
-              Enjoy the lorem ipsum dolor sit amet, consectetur adipiscing elit,
-              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-            </p>
+            {hostel && (hostel.hostelFeatures[0].FurnitureAndClothing !==undefined) && (<div className='w3-row w3-large'>
+              <h4>Furniture and Clothing</h4>
+              <ul>
+                <li>{hostel.hostelFeatures?.FurnitureAndClothing[0]}</li>
+              </ul>
+              <hr />
+            </div>)}
+
+            <h4>Discount we've negiotiated for you: Rs. {hostel && hostel.discountOffered}</h4>
+
+            <div className='w3-row w3-large'>
+            <h4>Pricing</h4>
+            <p><strong>Admission: </strong>{hostel && ("Rs. " + hostel.fee.admission)}</p>
+            </div>
+            <hr />
+
             <p>
               We accept: <i className='fa fa-credit-card w3-large' />{" "}
               <i className='fa fa-cc-mastercard w3-large' />{" "}
@@ -113,44 +94,6 @@ const HostelDetail = props => {
               <i className='fa fa-cc-paypal w3-large' />
             </p>
             <hr />
-            <h4>
-              <strong>Rules</strong>
-            </h4>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-            </p>
-            <p>
-              Subscribe to receive updates on available dates and special
-              offers.
-            </p>
-            <p>
-              <div>
-                <Link to='/book' className='btn btn-primary btn-block'>
-                  Book Now
-                </Link>
-              </div>
-            </p>
-          </div>
-          <hr />
-          {/* Contact */}
-          <div className='w3-container' id='contact'>
-            <h2>Contact</h2>
-            <i className='fa fa-map-marker' style={{ width: "30px" }} />{" "}
-            Chicago, US
-            <br />
-            <i className='fa fa-phone' style={{ width: "30px" }} /> Phone: +00
-            151515
-            <br />
-            <i className='fa fa-envelope' style={{ width: "30px" }}>
-              {" "}
-            </i>{" "}
-            Email: mail@mail.com
-            <br />
-            <p>Questions? Go ahead, ask them:</p>
-            {/* End page content */}
           </div>
         </div>
       </div>
@@ -161,7 +104,7 @@ const HostelDetail = props => {
 const mapStateToProps = state => ({
   hostel: state.retriever.hostel,
   path: state.getPath.path,
-  loading: state.getPath.loading
+  //loading: state.getPath.loading
 });
 
 export default connect(mapStateToProps, { getPath, retHostel })(HostelDetail);

@@ -7,7 +7,7 @@ import CheckBox from "./CheckBox";
 import Upload from "./Upload";
 import "./Login.css";
 import axios from "../../config/axios";
-import uuid from "uuid";
+//import uuid from "uuid";
 
 // this needs to be imported from the database
 // data for the drop down menu
