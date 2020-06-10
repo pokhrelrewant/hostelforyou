@@ -7,13 +7,26 @@ import "./hostelDetail.css";
 import Navbar from "../layout/Navbar";
 import retHostel from "../../actions/retHostel";
 
-const HostelDetail = ({match, hostel, path, retHostel}) => {
+const HostelDetail = ({match, hostel, getPath, path, retHostel}) => {
   let [features, setFeatures] = useState({});
   useEffect(() => {
     if (match.path === "/hostel/:id") {
       retHostel(match.params.id);
     }
   }, [match,retHostel]);
+
+  useEffect(()=>{
+    //Converting notableFeatures to a convinient form
+      //which should have been done serverside
+    if (hostel) {
+      let featureArray = {};
+      let F = hostel.hostelFeatures[0]?.notableFeatures;
+      let fE = s => F.find(f => f.toLowerCase().trim() === s.toLowerCase()) ?? false;
+      ["free wifi", "24 hours electricity", "running water"].forEach(f => featureArray[f] = fE(f) ? true : false)
+      setFeatures(featureArray);
+    }
+  }, [hostel, setFeatures])
+
 
   let i = 1;
   return (
