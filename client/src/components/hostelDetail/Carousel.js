@@ -3,6 +3,7 @@ import React, { Fragment } from "react";
 const Carousel = ({imgFolder, images}) => {
   let divs = [];
   let indicators = [];
+  if (images===null || images===undefined) return (<div></div>);
   for (let i = 1; i < images.length; i++) {
     divs.push(
       <div className='carousel-item' key={i}>

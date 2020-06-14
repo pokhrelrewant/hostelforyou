@@ -9,10 +9,12 @@ import retHostel from "../../actions/retHostel";
 
 const HostelDetail = ({match, hostel, getPath, path, retHostel}) => {
   let [features, setFeatures] = useState({});
+  let [feeItems, setFeeItems]=useState([]);
+  let [availableSeating, setAvailableSeating] = useState([])
+
   useEffect(() => {
-    if (match.path === "/hostel/:id") {
+    if (match.path === "/hostel/:id") 
       retHostel(match.params.id);
-    }
   }, [match,retHostel]);
 
   useEffect(()=>{
@@ -24,10 +26,27 @@ const HostelDetail = ({match, hostel, getPath, path, retHostel}) => {
       let fE = s => F.find(f => f.toLowerCase().trim() === s.toLowerCase()) ?? false;
       ["free wifi", "24 hours electricity", "running water"].forEach(f => featureArray[f] = fE(f) ? true : false)
       setFeatures(featureArray);
+
+      let i = 0;
+      let items = [];
+      for (let f in hostel.fee.monthly[0]){
+        if (f==="_id") continue;
+        items.push(<li key={i++}><strong>{f}</strong> : {hostel.fee.monthly[0][f]}</li>)
+      }
+      setFeeItems(items);
+
+      let seatingItems = [];
+      for (let f in hostel.availableSeating[0]){
+        if (f==="_id") continue;
+        seatingItems.push(<li key={i++}><strong>{f}</strong> : {hostel.availableSeating[0][f]}</li>);
+      }
+      setAvailableSeating(seatingItems);
+
     }
-  }, [hostel, setFeatures])
+  }, [hostel, setFeatures, setFeeItems, setAvailableSeating])
 
 
+  
   let i = 1;
   return (
     <Fragment>
@@ -41,61 +60,54 @@ const HostelDetail = ({match, hostel, getPath, path, retHostel}) => {
             </div>
 
           <div className='mt-3 w3-container'>
-            <h4> Nearby Institutions </h4>
-            <ul>
-              {hostel && hostel.nearbyInstitutions.map(item => (<li key={i++}>{item}</li>))}
-            </ul>
-
-
+            <h4><strong>Nearby Institutions</strong></h4>
             <div className='w3-row w3-large'>
-              <div className='w3-col s6'>
-                <p>Max people: 4</p>
-                <p>
-                  <i className='fa fa-fw fa-bath' /> Bathrooms: 2
-                </p>
-                <p>
-                  <i className='fa fa-fw fa-bed' /> Bedrooms: 1
-                </p>
-              </div>
-              <div className='w3-col s6'>
-                <p>
-                  <i className='fa fa-fw fa-clock-o' /> Check In: After 3PM
-                </p>
-                <p>
-                  <i className='fa fa-fw fa-clock-o' /> Check Out: 12PM
-                </p>
-              </div>
+              <ul>
+                {hostel && hostel.nearbyInstitutions.map(item => (<li key={i++}>{item}</li>))}
+              </ul>
             </div>
-            <hr />
+
             <h4>
               <strong>Amenities</strong>
             </h4>
             <div className='w3-row w3-large'>
-              <div className='w3-col s6'>
-                {features["running water"]&&(<p><i className='fa fa-fw fa-shower' />Shower</p>)}
-                {features["free wifi"]&&(<p><i className='fa fa-fw fa-wifi' /> WiFi</p>)}
-                {features["24 hours electricity"]&&(<p><i className='fa fa-fw fa-tv' /> 24 Hour Electricity</p>)}
-              </div>
-              <div className='w3-col s6'>
-                {features["kitchen"]&&(<p><i className='fa fa-fw fa-cutlery' /> Kitchen</p>)}
-                {features["heating"]&&(<p><i className='fa fa-fw fa-thermometer' /> Heating</p>)}
-                {features["accessible"]&&(<p><i className='fa fa-fw fa-wheelchair' /> Accessible</p>)}
-              </div>
+              <ul>
+                {features["running water"]&&(<li><i className='fa fa-fw fa-shower' />Shower</li>)}
+                {features["free wifi"]&&(<li><i className='fa fa-fw fa-wifi' /> WiFi</li>)}
+                {features["24 hours electricity"]&&(<li><i className='fa fa-fw fa-tv' /> 24 Hour Electricity</li>)}
+                {features["kitchen"]&&(<li><i className='fa fa-fw fa-cutlery' /> Kitchen</li>)}
+                {features["heating"]&&(<li><i className='fa fa-fw fa-thermometer' /> Heating</li>)}
+                {features["accessible"]&&(<li><i className='fa fa-fw fa-wheelchair' /> Accessible</li>)}
+              </ul>
             </div>
             <hr />
-            {hostel && (hostel.hostelFeatures[0].FurnitureAndClothing !==undefined) && (<div className='w3-row w3-large'>
+
+            { hostel && hostel.hostelFeatures[0].furnitureAndClothing.length>0
+              && <div className='w3-row w3-large'>
               <h4>Furniture and Clothing</h4>
               <ul>
-                <li>{hostel.hostelFeatures?.FurnitureAndClothing[0]}</li>
+                {hostel && hostel.hostelFeatures[0].furnitureAndClothing.map(f=>(
+                  <li key={f}>{f}</li>
+                ))}
               </ul>
               <hr />
-            </div>)}
-
-            <h4>Discount we've negiotiated for you: Rs. {hostel && hostel.discountOffered}</h4>
+            </div>}
 
             <div className='w3-row w3-large'>
-            <h4>Pricing</h4>
-            <p><strong>Admission: </strong>{hostel && ("Rs. " + hostel.fee.admission)}</p>
+            <h4><strong>Pricing</strong></h4>
+            <ul>
+              <li><strong>Admission: </strong>{hostel && ("Rs. " + hostel.fee.admission)}</li>
+              {feeItems}
+            </ul>
+            </div>
+            <hr />
+
+            <div className='w3-row w3-large'>
+            <h4><strong>Available Seating</strong></h4>
+            <ul>
+            <li><strong>Admission: </strong>{hostel && ("Rs. " + hostel.fee.admission)}</li>
+              {availableSeating}
+            </ul>
             </div>
             <hr />
 
@@ -117,7 +129,6 @@ const HostelDetail = ({match, hostel, getPath, path, retHostel}) => {
 const mapStateToProps = state => ({
   hostel: state.retriever.hostel,
   path: state.getPath.path,
-  //loading: state.getPath.loading
 });
 
 export default connect(mapStateToProps, { getPath, retHostel })(HostelDetail);
