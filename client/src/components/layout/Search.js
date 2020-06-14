@@ -10,24 +10,24 @@ import Navbar from "./Navbar";
 const arrayOfData = [
   {
     id: 1,
-    name: "Pulchowk"
+    name: "Pulchowk",
   },
   {
     id: 2,
-    name: "Patan"
+    name: "Patan",
   },
   {
     id: 3,
-    name: "Thapathali"
+    name: "Thapathali",
   },
   {
     id: 4,
-    name: "Ratnapark"
+    name: "Ratnapark",
   },
   {
     id: 5,
-    name: "Babarmahal"
-  }
+    name: "Babarmahal",
+  },
 ];
 
 class Search extends Component {
@@ -37,28 +37,27 @@ class Search extends Component {
       institutionSelectedValue: arrayOfData[0],
       locationSelectedValue: arrayOfData[0],
       search: "",
-      buttonload: false
+      buttonload: false,
     };
   }
 
-  handleInstitutionChange = institutionSelectedValue => {
+  handleInstitutionChange = (institutionSelectedValue) => {
     console.log(arrayOfData[institutionSelectedValue - 1]);
     this.setState({
-      institutionSelectedValue: arrayOfData[institutionSelectedValue - 1].name
+      institutionSelectedValue: arrayOfData[institutionSelectedValue - 1].name,
     });
   };
-  handleLocationChange = locationSelectedValue => {
+  handleLocationChange = (locationSelectedValue) => {
+    console.log(locationSelectedValue);
+    console.log(arrayOfData[locationSelectedValue - 1]);
     this.setState({
-      locationSelectedValue: arrayOfData[locationSelectedValue - 1].name
+      locationSelectedValue: arrayOfData[locationSelectedValue - 1].name,
     });
   };
-  handleSubmit = async e => {
+  handleSubmit = async (e) => {
     // e.preventDefault();
-    console.log(this.state.locationSelectedValue);
-    console.log(this.state.institutionSelectedValue);
-    console.log(this.props.loading);
     this.setState({
-      buttonload: true
+      buttonload: true,
     });
     await this.props.retriever(
       this.state.search,
@@ -66,9 +65,9 @@ class Search extends Component {
     );
     this.setState({ buttonload: false });
   };
-  handleSearchChange = event => {
+  handleSearchChange = (event) => {
     this.setState({
-      search: event.target.value
+      search: event.target.value,
     });
   };
 
@@ -88,7 +87,7 @@ class Search extends Component {
               style={{
                 margin: "0 auto",
                 marginBottom: "50px",
-                display: "block"
+                display: "block",
               }}
               class='responsive'
             />
@@ -149,8 +148,8 @@ class Search extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  loading: state.retriever.loading
+const mapStateToProps = (state) => ({
+  loading: state.retriever.loading,
 });
 
 export default connect(mapStateToProps, { setAlert, retriever })(Search);

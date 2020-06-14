@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect,useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Carousel from "./Carousel";
@@ -7,26 +7,28 @@ import "./hostelDetail.css";
 import Navbar from "../layout/Navbar";
 import retHostel from "../../actions/retHostel";
 
-const HostelDetail = ({match, hostel, getPath, path, retHostel}) => {
+const HostelDetail = ({ match, hostel, getPath, path, retHostel }) => {
   let [features, setFeatures] = useState({});
   useEffect(() => {
     if (match.path === "/hostel/:id") {
       retHostel(match.params.id);
     }
-  }, [match,retHostel]);
+  }, [match, retHostel]);
 
-  useEffect(()=>{
+  useEffect(() => {
     //Converting notableFeatures to a convinient form
-      //which should have been done serverside
+    //which should have been done serverside
     if (hostel) {
       let featureArray = {};
       let F = hostel.hostelFeatures[0]?.notableFeatures;
-      let fE = s => F.find(f => f.toLowerCase().trim() === s.toLowerCase()) ?? false;
-      ["free wifi", "24 hours electricity", "running water"].forEach(f => featureArray[f] = fE(f) ? true : false)
+      let fE = (s) =>
+        F.find((f) => f.toLowerCase().trim() === s.toLowerCase()) ?? false;
+      ["free wifi", "24 hours electricity", "running water"].forEach(
+        (f) => (featureArray[f] = fE(f) ? true : false)
+      );
       setFeatures(featureArray);
     }
-  }, [hostel, setFeatures])
-
+  }, [hostel, setFeatures]);
 
   let i = 1;
   return (
@@ -34,18 +36,27 @@ const HostelDetail = ({match, hostel, getPath, path, retHostel}) => {
       <Navbar />
       <div>
         <div className='container container-sm containerNirav my-2 my-sm-4'>
-            <div id='demo' className='carousel slide' data-ride='carousel'>
-              <h2 className='w3-text-green'>{hostel&&hostel.name}</h2>
-              <h4>{hostel&&hostel.location}</h4>
-              <div>{hostel&&(<Carousel imgFolder={hostel.photos} images={hostel.photosPath}/>)}</div>
+          <div id='demo' className='carousel slide' data-ride='carousel'>
+            <h2 className='w3-text-green'>{hostel && hostel.name}</h2>
+            <h4>{hostel && hostel.location}</h4>
+            <div>
+              {hostel && (
+                <Carousel
+                  imgFolder={hostel.photos}
+                  images={hostel.photosPath}
+                />
+              )}
             </div>
+          </div>
 
           <div className='mt-3 w3-container'>
             <h4> Nearby Institutions </h4>
             <ul>
-              {hostel && hostel.nearbyInstitutions.map(item => (<li key={i++}>{item}</li>))}
+              {hostel &&
+                hostel.nearbyInstitutions.map((item) => (
+                  <li key={i++}>{item}</li>
+                ))}
             </ul>
-
 
             <div className='w3-row w3-large'>
               <div className='w3-col s6'>
@@ -72,30 +83,64 @@ const HostelDetail = ({match, hostel, getPath, path, retHostel}) => {
             </h4>
             <div className='w3-row w3-large'>
               <div className='w3-col s6'>
-                {features["running water"]&&(<p><i className='fa fa-fw fa-shower' />Shower</p>)}
-                {features["free wifi"]&&(<p><i className='fa fa-fw fa-wifi' /> WiFi</p>)}
-                {features["24 hours electricity"]&&(<p><i className='fa fa-fw fa-tv' /> 24 Hour Electricity</p>)}
+                {features["running water"] && (
+                  <p>
+                    <i className='fa fa-fw fa-shower' />
+                    Shower
+                  </p>
+                )}
+                {features["free wifi"] && (
+                  <p>
+                    <i className='fa fa-fw fa-wifi' /> WiFi
+                  </p>
+                )}
+                {features["24 hours electricity"] && (
+                  <p>
+                    <i className='fa fa-fw fa-tv' /> 24 Hour Electricity
+                  </p>
+                )}
               </div>
               <div className='w3-col s6'>
-                {features["kitchen"]&&(<p><i className='fa fa-fw fa-cutlery' /> Kitchen</p>)}
-                {features["heating"]&&(<p><i className='fa fa-fw fa-thermometer' /> Heating</p>)}
-                {features["accessible"]&&(<p><i className='fa fa-fw fa-wheelchair' /> Accessible</p>)}
+                {features["kitchen"] && (
+                  <p>
+                    <i className='fa fa-fw fa-cutlery' /> Kitchen
+                  </p>
+                )}
+                {features["heating"] && (
+                  <p>
+                    <i className='fa fa-fw fa-thermometer' /> Heating
+                  </p>
+                )}
+                {features["accessible"] && (
+                  <p>
+                    <i className='fa fa-fw fa-wheelchair' /> Accessible
+                  </p>
+                )}
               </div>
             </div>
             <hr />
-            {hostel && (hostel.hostelFeatures[0].FurnitureAndClothing !==undefined) && (<div className='w3-row w3-large'>
-              <h4>Furniture and Clothing</h4>
-              <ul>
-                <li>{hostel.hostelFeatures?.FurnitureAndClothing[0]}</li>
-              </ul>
-              <hr />
-            </div>)}
+            {hostel &&
+              hostel.hostelFeatures[0].FurnitureAndClothing !== undefined && (
+                <div className='w3-row w3-large'>
+                  <h4>Furniture and Clothing</h4>
+                  <ul>
+                    <li>{hostel.hostelFeatures?.FurnitureAndClothing[0]}</li>
+                  </ul>
+                  <hr />
+                </div>
+              )}
 
-            <h4>Discount we've negiotiated for you: Rs. {hostel && hostel.discountOffered}</h4>
+            <h4>
+              Discount we've negiotiated for you: Rs.{" "}
+              {hostel && hostel.discountOffered}
+            </h4>
 
             <div className='w3-row w3-large'>
-            <h4>Pricing</h4>
-            <p><strong>Admission: </strong>{hostel && ("Rs. " + hostel.fee.admission)}</p>
+              <h4>Pricing</h4>
+              <p>
+                <strong>Admission: </strong>
+                {hostel && "Rs. " + hostel.fee.admission}
+              </p>
             </div>
             <hr />
 
@@ -114,7 +159,7 @@ const HostelDetail = ({match, hostel, getPath, path, retHostel}) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   hostel: state.retriever.hostel,
   path: state.getPath.path,
   //loading: state.getPath.loading

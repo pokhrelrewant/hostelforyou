@@ -5,6 +5,7 @@ import Booking from "./components/layout/Booking";
 import Form from "./components/layout/Form";
 import Login from "./components/layout/Login";
 import Search from "./components/layout/Search";
+import NewSearch from "./components/layout/NewSearch";
 import Alert from "./components/layout/Alert";
 import HostelDetail from "./components/hostelDetail/HostelDetail";
 import ModifiedForm from "./components/form/ModifiedForm";
@@ -27,6 +28,7 @@ const App = () => (
           <Route exact path='/form' component={Form} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/search' component={Search} />
+          <Route exact path='/newsearch' component={NewSearch} />
           <Route exact path='/hosteldetail' component={HostelDetail} />
           <Route exact path='/addhostel' component={ModifiedForm} />
           <Route exact path='/signup' component={SignUp} />
