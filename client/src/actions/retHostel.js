@@ -1,28 +1,31 @@
 import axios from "../config/axios";
 import { SELECT_HOSTEL, RETRIEVE_ERROR } from "./types";
 
-const retHostel = _id => async dispatch => {
+const retHostel = (slug) => async (dispatch) => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
-  console.log(_id);
+  console.log(slug);
   try {
     const res = await axios.post(
       "/api/retrieve_hostels_id",
-      { _id: _id },
+      { slug: slug },
       config
     );
 
     dispatch({
       type: SELECT_HOSTEL,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
       type: RETRIEVE_ERROR,
-      payload: { msg: err?.response?.statusText, status: err?.response?.status }
+      payload: {
+        msg: err?.response?.statusText,
+        status: err?.response?.status,
+      },
     });
   }
 };

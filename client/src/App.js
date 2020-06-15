@@ -34,7 +34,7 @@ const App = () => (
           <Route exact path='/signup' component={SignUp} />
           <Route exact path='/upload' component={Upload} />
           <Route exact path='/contact' component={Contact} />
-          <Route exact path='/hostel/:id' component={HostelDetail} />
+          <Route exact path='/hostel/:slug' component={HostelDetail} />
           {/* <Route exact path='/doc' component={MyDocument} /> */}
         </Switch>
       </Fragment>

@@ -13,7 +13,7 @@ const HostelDetail = ({ match, hostel, getPath, path, retHostel }) => {
   let [availableSeating, setAvailableSeating] = useState([]);
 
   useEffect(() => {
-    if (match.path === "/hostel/:id") retHostel(match.params.id);
+    if (match.path === "/hostel/:slug") retHostel(match.params.slug);
   }, [match, retHostel]);
 
   useEffect(() => {

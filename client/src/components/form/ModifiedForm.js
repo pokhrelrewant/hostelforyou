@@ -245,16 +245,16 @@ class ModifiedFrom extends Component {
       specialFeatures: JSON.stringify(this.state.specialFeatures),
       Photos: this.state.newUser.id,
     };
-    console.log(userData.nearbyInstitutions);
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    try {
-      const res = await axios.post("/api/add_hostel", userData, config);
-      console.log(res.data);
-    } catch (err) {}
+    console.log(userData);
+    // const config = {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // };
+    // try {
+    //   const res = await axios.post("/api/add_hostel", userData, config);
+    //   console.log(res.data);
+    // } catch (err) {}
   }
 
   handleClearForm(e) {

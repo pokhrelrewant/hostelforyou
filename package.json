@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server",
-    "server": "nodemon server",
+    "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
@@ -33,6 +33,7 @@
     "request": "^2.88.2",
     "require-context": "^1.1.0",
     "rimraf": "^3.0.2",
+    "slugify": "^1.4.0",
     "wait-until": "0.0.2"
   }
 }

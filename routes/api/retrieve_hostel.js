@@ -10,6 +10,7 @@ router.post("/", async (req, res) => {
       delete objs[obj];
     }
   }
+  console.log(objs);
   if (objs.name != null) {
     query = await Hostel.find({
       name: { $regex: new RegExp(objs.name, "i") },

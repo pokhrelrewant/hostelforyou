@@ -6,8 +6,7 @@ const Hostel = require("../../models/Hostel");
 
 router.post("/", async (req, res) => {
   objs = req.body;
-  let query = await Hostel.findById(objs._id);
-
+  let query = await Hostel.findOne({ slug: objs.slug });
   const directoryPath = `client/public/uploads/${
     query.photos ? query.photos : "undefined"
   }`;
