@@ -20,7 +20,7 @@ class Dropdown extends Component {
         className='custom-search-select form-control'
         onChange={this.handleChange}
       >
-        <option id='-1' value='-1'>Select Item</option>
+        <option id='-1' value=''>Select Item</option>
         {options}
       </select>
     );
