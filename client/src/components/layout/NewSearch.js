@@ -81,7 +81,7 @@ const NewSearch = ({ retriever }) => {
               marginBottom: "50px",
               display: "block",
             }}
-            class='responsive'
+            className='responsive'
           />
           <h3 className='mb-2'>Search Page </h3>
           <div className='input-group'>

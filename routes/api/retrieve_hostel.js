@@ -5,7 +5,6 @@ const Hostel = require("../../models/Hostel");
 
 router.post("/", async (req, res) => {
   objs = req.body;
-  console.log(req.body);
   for (obj in objs) {
     if (objs[obj] === "") {
       delete objs[obj];
@@ -13,11 +12,11 @@ router.post("/", async (req, res) => {
   }
   if (objs.name != null) {
     query = await Hostel.find({
-      name: { $regex: `/${objs.name}/`, $options: "i" },
+      name: { $regex: new RegExp(objs.name, "i") },
+      // nearbyInstitutions: objs.nearbyInstitutions,
+      // location: objs.location,
     });
-    console.log(query);
   } else {
-    console.log("hello");
     query = await Hostel.find(objs);
   }
 
