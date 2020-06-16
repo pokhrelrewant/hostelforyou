@@ -3,16 +3,16 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import selectHostel from "../../actions/selectHostel";
 
-const HostelCard = props => {
+const HostelCard = (props) => {
   const { hostel, selectHostel } = props;
-  const hostelData = hostel.hostels.map(hos => (
-    <div className='card' key={hos._id}>
+  const hostelData = hostel.hostels.map((hos) => (
+    <div className='card' key={hos.slug}>
       <Link
-        to={"/hostel/" + hos._id}
+        to={"/hostel/" + hos.slug}
         onClick={() => {
-          const temp = hos._id;
-          let clickedHostel = hostel.hostels.filter(hos => {
-            return hos._id === temp;
+          const temp = hos.slug;
+          let clickedHostel = hostel.hostels.filter((hos) => {
+            return hos.slug === temp;
           });
           selectHostel(clickedHostel);
         }}
@@ -33,9 +33,9 @@ const HostelCard = props => {
   return <Fragment>{hostelData}</Fragment>;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   hostel: state.retriever,
-  loading: state.retriever.loading
+  loading: state.retriever.loading,
 });
 
 export default connect(mapStateToProps, { selectHostel })(HostelCard);
