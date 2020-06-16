@@ -1,30 +1,35 @@
 const express = require("express");
 const router = express.Router();
 var fs = require("fs");
+var multer = require("multer");
+var upload = multer({ dest: "anewfolder/" });
 var rimraf = require("rimraf");
 
-router.post("/", (req, res) => {
+router.post("/", upload.single("file0"), (req, res) => {
+  console.log(req.files);
   if (req.files === null) {
     return res.status(400).json({ msg: "No file Uploaded" });
   }
-  const parentDir = process.cwd();
-  var dir = `${parentDir}/client/public/uploads/${req.body.id}`;
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir);
-  }
-  for (let file in req.files) {
-    const simg = req.files[file];
-    simg.mv(`${dir}/${simg.name}`, err => {
-      if (err) {
-        rimraf(`${dir}`, function() {
-          console.log("Folder removed due to error.");
-        });
-        console.error(err);
-        return res.status(500).send(err);
-      }
-    });
-  }
-  res.json("uploaded");
+
+  // const parentDir = process.cwd();
+  //   var dir = `${parentDir}/client/public/uploads/${req.body.id}`;
+  //   if (!fs.existsSync(dir)) {
+  //     fs.mkdirSync(dir);
+  //   }
+
+  // for (let file in req.files) {
+  //   const simg = req.files[file];
+  //   simg.mv(`${dir}/${simg.name}`, err => {
+  //     if (err) {
+  //       rimraf(`${dir}`, function() {
+  //         console.log("Folder removed due to error.");
+  //       });
+  //       console.error(err);
+  //       return res.status(500).send(err);
+  //     }
+  //   });
+  // }
+  res.json(req.body);
 });
 
 module.exports = router;
