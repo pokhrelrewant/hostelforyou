@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 const Upload = props => {
   const { id, setAlert } = props;
-  const [file, setFile] = useState("");
+  const [file, setFile] = useState();
   const [filename, setFilename] = useState("Choose File");
   const [filelength, setFilelength] = useState(0);
 
@@ -19,17 +19,14 @@ const Upload = props => {
     e.preventDefault();
     console.log(filelength);
     const formData = new FormData();
-    for (let i = 0; i < filelength; i++) {
-      formData.append(`file${i}`, file[i]);
-    }
-    formData.append("id", id);
-    console.log(formData.get("id"));
-    // console.log(formData);
+    console.log(file[0])
+    formData.append("f", file[0], filename);
+    console.log(formData.get("f"));
 
     try {
       await axios.post("/api/upload", formData, {
         headers: {
-          "Content-Type": "multipart/form-data"
+          "content-type": "multipart/form-data"
         }
       });
       setAlert("Images Uploaded Successfully", "success");
@@ -51,8 +48,9 @@ const Upload = props => {
             multiple
             accept='image/*'
             onChange={onChange}
+            name="f"
           />
-          <label className='custom-file-label' for='customFile'>
+          <label className='custom-file-label' htmlFor='customFile'>
             {filename}
           </label>
         </div>

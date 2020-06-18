@@ -296,13 +296,14 @@ class ModifiedFrom extends Component {
 
   render() {
     return (
+      <Fragment>
       <form>
         <h3>Form Page </h3>
         <div className='container'>
           <div className='form-group formFields'>
             {/*   <label>User Name</label> */}
             <Input
-              inputType={"text"}
+              inputtype="text"
               title={"Hostel Name"}
               name={"hostelName"}
               value={this.state.newUser.hostelName}
@@ -311,7 +312,7 @@ class ModifiedFrom extends Component {
             />{" "}
             {/* Name of the Hostel */}
             <Input
-              inputType={"text"}
+              inputtype={"text"}
               title={"Hostel Address"}
               name={"hostelAddress"}
               value={this.state.newUser.hostelAddress}
@@ -322,7 +323,7 @@ class ModifiedFrom extends Component {
             <label htmlFor='nearByInstitutions'> Nearby Institutions</label>
             <div className='form-row'>
               {this.state.nearByInstitutions.map((nearByInstitution, index) => (
-                <Fragment>
+                <Fragment key={index}>
                   <div className='form-group col-sm-6'>
                     <input
                       type='text'
@@ -356,7 +357,7 @@ class ModifiedFrom extends Component {
               Add
             </button>
             <Input
-              inputType={"phoneNumber"}
+              inputtype={"phoneNumber"}
               title={"Phone Number"}
               name={"phoneNumber"}
               value={this.state.newUser.phoneNumber}
@@ -364,7 +365,7 @@ class ModifiedFrom extends Component {
               handleChange={this.handleInput}
             />{" "}
             {/* Phone Number of the hostel */}
-            {/* <Input inputType={'number'} 
+            {/* <Input inputtype={'number'} 
                             name={'age'}
                             title= {'Age'} 
                             value={this.state.newUser.age} 
@@ -372,7 +373,7 @@ class ModifiedFrom extends Component {
                             handleChange={this.handleNumbers} 
                             /> {/* Age */}
             <Input
-              inputType={"number"}
+              inputtype={"number"}
               name={"discountOffered"}
               title={"Discount Offered"}
               value={this.state.newUser.discountOffered}
@@ -381,7 +382,7 @@ class ModifiedFrom extends Component {
             />{" "}
             {/* Discount Offered */}
             <Input
-              inputType={"number"}
+              inputtype={"number"}
               name={"admissionFee"}
               title={"Admission Fee"}
               value={this.state.newUser.admissionFee}
@@ -393,7 +394,7 @@ class ModifiedFrom extends Component {
             <label>Monthly Fee </label>
             <br />
             <InLineInput
-              inputType={"number"}
+              inputtype={"number"}
               name={"monthlyFeeOneSeater"}
               title={"One Seater"}
               value={this.state.newUser.monthlyFeeOneSeater}
@@ -401,7 +402,7 @@ class ModifiedFrom extends Component {
               handleChange={this.handleNumbers}
             />
             <InLineInput
-              inputType={"number"}
+              inputtype={"number"}
               name={"monthlyFeeTwoSeater"}
               title={"Two Seater"}
               value={this.state.newUser.monthlyFeeTwoSeater}
@@ -409,7 +410,7 @@ class ModifiedFrom extends Component {
               handleChange={this.handleNumbers}
             />
             <InLineInput
-              inputType={"number"}
+              inputtype={"number"}
               name={"monthlyFeeThreeSeater"}
               title={"Three Seater"}
               value={this.state.newUser.monthlyFeeThreeSeater}
@@ -417,7 +418,7 @@ class ModifiedFrom extends Component {
               handleChange={this.handleNumbers}
             />
             <InLineInput
-              inputType={"number"}
+              inputtype={"number"}
               name={"monthlyFeeFourSeater"}
               title={"Four Seater"}
               value={this.state.newUser.monthlyFeeFourSeater}
@@ -426,7 +427,7 @@ class ModifiedFrom extends Component {
             />
             <br />
             <Input
-              inputType={"number"}
+              inputtype={"number"}
               title={"Total Number of Rooms"}
               name={"totalRooms"}
               value={this.state.newUser.totalRooms}
@@ -438,7 +439,7 @@ class ModifiedFrom extends Component {
             <label>Total Rooms in :</label>
             <br />
             <InLineInput
-              inputType={"number"}
+              inputtype={"number"}
               name={"totalSeatOne"}
               title={"One Seater "}
               value={this.state.newUser.totalSeatOne}
@@ -446,7 +447,7 @@ class ModifiedFrom extends Component {
               handleChange={this.handleNumbers}
             />
             <InLineInput
-              inputType={"number"}
+              inputtype={"number"}
               name={"totalSeatTwo"}
               title={"Two Seater "}
               value={this.state.newUser.totalSeatTwo}
@@ -454,7 +455,7 @@ class ModifiedFrom extends Component {
               handleChange={this.handleNumbers}
             />
             <InLineInput
-              inputType={"number"}
+              inputtype={"number"}
               name={"totalSeatThree"}
               title={"Three Seater "}
               value={this.state.newUser.totalSeatThree}
@@ -462,7 +463,7 @@ class ModifiedFrom extends Component {
               handleChange={this.handleNumbers}
             />
             <InLineInput
-              inputType={"number"}
+              inputtype={"number"}
               name={"totalSeatFour"}
               title={"Four Seater "}
               value={this.state.newUser.totalSeatFour}
@@ -473,7 +474,7 @@ class ModifiedFrom extends Component {
             <label>Available Seating Option For :</label>
             <br />
             <InLineInput
-              inputType={"number"}
+              inputtype={"number"}
               name={"availableSeatOne"}
               title={"One Seater "}
               value={this.state.newUser.availableSeatOne}
@@ -481,7 +482,7 @@ class ModifiedFrom extends Component {
               handleChange={this.handleNumbers}
             />
             <InLineInput
-              inputType={"number"}
+              inputtype={"number"}
               name={"availableSeatTwo"}
               title={"Two Seater "}
               value={this.state.newUser.availableSeatTwo}
@@ -489,7 +490,7 @@ class ModifiedFrom extends Component {
               handleChange={this.handleNumbers}
             />
             <InLineInput
-              inputType={"number"}
+              inputtype={"number"}
               name={"availableSeatThree"}
               title={"Three Seater "}
               value={this.state.newUser.availableSeatThree}
@@ -497,7 +498,7 @@ class ModifiedFrom extends Component {
               handleChange={this.handleNumbers}
             />
             <InLineInput
-              inputType={"number"}
+              inputtype={"number"}
               name={"availableSeatFour"}
               title={"Four Seater "}
               value={this.state.newUser.availableSeatFour}
@@ -558,7 +559,7 @@ class ModifiedFrom extends Component {
             <label htmlFor='specialFeatures'> Special Features </label>
             <div className='form-row'>
               {this.state.specialFeatures.map((specialFeature, index) => (
-                <Fragment>
+                <Fragment key={index}>
                   <div className='form-group col-sm-6'>
                     <input
                       type='text'
@@ -605,7 +606,6 @@ class ModifiedFrom extends Component {
                             placeholder={' Monthly Fee for one seater' }/>
                         </div> 
                                     */}
-            <Upload id={this.generateID()} />
             <Button
               action={this.handleFormSubmit}
               type={"primary"}
@@ -623,6 +623,9 @@ class ModifiedFrom extends Component {
           </div>
         </div>
       </form>
+
+      <Upload id={this.generateID()} />
+      </Fragment>
     );
   }
 }
