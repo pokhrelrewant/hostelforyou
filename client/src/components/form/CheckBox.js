@@ -9,7 +9,7 @@ const CheckBox = (props) => {
       <div className='checkbox'>
         {props.options.map((option) => {
           return (
-            <label key={option} className='checkbox-inline'>
+            <label key={option} className='form-check-inline'>
               <input
                 id={props.name}
                 name={props.name}

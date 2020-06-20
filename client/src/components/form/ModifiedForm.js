@@ -1,4 +1,6 @@
 import React, { Fragment, Component } from "react";
+import validator from "validator";
+import Navbar from "../layout/Navbar";
 import Input from "./Input";
 import InLineInput from "./InLineInput";
 import Button from "./Button";
@@ -17,6 +19,14 @@ class ModifiedFrom extends Component {
     super(props);
     this.inputRef = React.createRef();
     this.state = {
+      isValid: false,
+      validArray: {
+        hostelName: false,
+        hostelAddress: false,
+        phoneNumber: false,
+        discountOffered: false,
+        admissionFee: false,
+      },
       nearByInstitutions: [{ institute: "" }],
       specialFeatures: [{ feature: "" }],
       newUser: {
@@ -245,7 +255,14 @@ class ModifiedFrom extends Component {
       specialFeatures: JSON.stringify(this.state.specialFeatures),
       Photos: this.state.newUser.id,
     };
-    console.log(userData);
+
+    let isValid =
+      this.handleAlphaInputValidity(userData.name) &&
+      this.handleAlphaInputValidity(userData.location) &&
+      this.handleNumberValidity(userData.phoneNo);
+    if (isValid) {
+      console.log(userData);
+    }
     // const config = {
     //   headers: {
     //     "Content-Type": "application/json",
@@ -294,311 +311,360 @@ class ModifiedFrom extends Component {
 
   // to focus in the username at first
 
+  handleAlphaInputValidity(props, arrayvar) {
+    if (props === "") return true;
+    // console.log(this.state.validArray[arrayvar]);
+    if (validator.isAlpha(props)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  handleNumberValidity(props) {
+    if (props === "") return true;
+    if (validator.isDecimal(props)) return true;
+    else return false;
+  }
+
   render() {
     return (
       <Fragment>
-      <form>
-        <h3>Form Page </h3>
-        <div className='container'>
-          <div className='form-group formFields'>
-            {/*   <label>User Name</label> */}
-            <Input
-              inputtype="text"
-              title={"Hostel Name"}
-              name={"hostelName"}
-              value={this.state.newUser.hostelName}
-              placeholder={"Enter Name of Hostel"}
-              handleChange={this.handleInput}
-            />{" "}
-            {/* Name of the Hostel */}
-            <Input
-              inputtype={"text"}
-              title={"Hostel Address"}
-              name={"hostelAddress"}
-              value={this.state.newUser.hostelAddress}
-              placeholder={"Enter Hostel Address"}
-              handleChange={this.handleInput}
-            />{" "}
-            {/* Address of the hostel */}
-            <label htmlFor='nearByInstitutions'> Nearby Institutions</label>
-            <div className='form-row'>
-              {this.state.nearByInstitutions.map((nearByInstitution, index) => (
-                <Fragment key={index}>
-                  <div className='form-group col-sm-6'>
-                    <input
-                      type='text'
-                      className='form-control'
-                      id='nearByInstitutions'
-                      name='nearByInstitutions'
-                      value={nearByInstitution.name}
-                      onChange={(event) =>
-                        this.handleInstitutionsChange(index, event)
-                      }
-                    />
-                  </div>
+        <Navbar />
+        <div className='form'>
+          <form>
+            <h3 className='mt-2'>Add Hostel Details</h3>
+            <div className='form-group formFields'>
+              {/*   <label>User Name</label> */}
+              <Input
+                inputtype='text'
+                title={"Hostel Name"}
+                name={"hostelName"}
+                value={this.state.newUser.hostelName}
+                placeholder={"Enter Name of Hostel"}
+                handleChange={this.handleInput}
+                isValid={this.handleAlphaInputValidity(
+                  this.state.newUser.hostelName,
+                  "hostelName"
+                )}
+              />{" "}
+              {/* Name of the Hostel */}
+              <Input
+                inputtype={"text"}
+                title={"Hostel Address"}
+                name={"hostelAddress"}
+                value={this.state.newUser.hostelAddress}
+                placeholder={"Enter Hostel Address"}
+                handleChange={this.handleInput}
+                isValid={this.handleAlphaInputValidity(
+                  this.state.newUser.hostelAddress
+                )}
+              />{" "}
+              {/* Address of the hostel */}
+              <label htmlFor='nearByInstitutions'> Nearby Institutions</label>
+              <div className='form-row'>
+                {this.state.nearByInstitutions.map(
+                  (nearByInstitution, index) => (
+                    <Fragment key={index}>
+                      <div className='form-group col-sm-6'>
+                        <input
+                          type='text'
+                          className='form-control'
+                          id='nearByInstitutions'
+                          name='nearByInstitutions'
+                          value={nearByInstitution.name}
+                          onChange={(event) =>
+                            this.handleInstitutionsChange(index, event)
+                          }
+                        />
+                      </div>
 
-                  <div className='form-group col-sm-2'>
-                    <button
-                      className='btn btn-link'
-                      type='button'
-                      onClick={() => this.handleRemoveInstitutions(index)}
-                    >
-                      Remove
-                    </button>
-                  </div>
-                </Fragment>
-              ))}
-            </div>
-            <button
-              className='btn btn-link'
-              type='button'
-              onClick={() => this.handleAddInstitutionsField()}
-            >
-              Add
-            </button>
-            <Input
-              inputtype={"phoneNumber"}
-              title={"Phone Number"}
-              name={"phoneNumber"}
-              value={this.state.newUser.phoneNumber}
-              placeholder={"Enter Phone Number of the hostel"}
-              handleChange={this.handleInput}
-            />{" "}
-            {/* Phone Number of the hostel */}
-            {/* <Input inputtype={'number'} 
+                      <div className='form-group col-sm-2'>
+                        <button
+                          className='btn btn-danger'
+                          type='button'
+                          onClick={() => this.handleRemoveInstitutions(index)}
+                        >
+                          <i className='fa fa-trash' aria-hidden='true'></i>
+                        </button>
+                      </div>
+                    </Fragment>
+                  )
+                )}
+              </div>
+              <button
+                className='btn btn-success mb-1'
+                type='button'
+                onClick={() => this.handleAddInstitutionsField()}
+              >
+                <i className='fa fa-plus' aria-hidden='true'></i>
+              </button>
+              <Input
+                inputtype={"phoneNumber"}
+                title={"Phone Number"}
+                name={"phoneNumber"}
+                value={this.state.newUser.phoneNumber}
+                placeholder={"Enter Phone Number of the hostel"}
+                handleChange={this.handleInput}
+                isValid={this.handleNumberValidity(
+                  this.state.newUser.phoneNumber
+                )}
+              />{" "}
+              {/* Phone Number of the hostel */}
+              {/* <Input inputtype={'number'} 
                             name={'age'}
                             title= {'Age'} 
                             value={this.state.newUser.age} 
                             placeholder = {'Enter your age'}
                             handleChange={this.handleNumbers} 
                             /> {/* Age */}
-            <Input
-              inputtype={"number"}
-              name={"discountOffered"}
-              title={"Discount Offered"}
-              value={this.state.newUser.discountOffered}
-              placeholder={"Enter Discount Offered by Hostel"}
-              handleChange={this.handleNumbers}
-            />{" "}
-            {/* Discount Offered */}
-            <Input
-              inputtype={"number"}
-              name={"admissionFee"}
-              title={"Admission Fee"}
-              value={this.state.newUser.admissionFee}
-              placeholder={"Enter the Admission Fee"}
-              handleChange={this.handleNumbers}
-            />{" "}
-            {/* Age */}
-            <br />
-            <label>Monthly Fee </label>
-            <br />
-            <InLineInput
-              inputtype={"number"}
-              name={"monthlyFeeOneSeater"}
-              title={"One Seater"}
-              value={this.state.newUser.monthlyFeeOneSeater}
-              placeholder={"Monthly Fee for One Seater"}
-              handleChange={this.handleNumbers}
-            />
-            <InLineInput
-              inputtype={"number"}
-              name={"monthlyFeeTwoSeater"}
-              title={"Two Seater"}
-              value={this.state.newUser.monthlyFeeTwoSeater}
-              placeholder={"Monthly Fee for Two Seater"}
-              handleChange={this.handleNumbers}
-            />
-            <InLineInput
-              inputtype={"number"}
-              name={"monthlyFeeThreeSeater"}
-              title={"Three Seater"}
-              value={this.state.newUser.monthlyFeeThreeSeater}
-              placeholder={"Monthly Fee for Three Seater"}
-              handleChange={this.handleNumbers}
-            />
-            <InLineInput
-              inputtype={"number"}
-              name={"monthlyFeeFourSeater"}
-              title={"Four Seater"}
-              value={this.state.newUser.monthlyFeeFourSeater}
-              placeholder={"Monthly Fee for Four Seater"}
-              handleChange={this.handleNumbers}
-            />
-            <br />
-            <Input
-              inputtype={"number"}
-              title={"Total Number of Rooms"}
-              name={"totalRooms"}
-              value={this.state.newUser.totalRooms}
-              placeholder={"Enter Total No. of Rooms"}
-              handleChange={this.handleInput}
-            />{" "}
-            {/* Address of the hostel */}
-            <br />
-            <label>Total Rooms in :</label>
-            <br />
-            <InLineInput
-              inputtype={"number"}
-              name={"totalSeatOne"}
-              title={"One Seater "}
-              value={this.state.newUser.totalSeatOne}
-              placeholder={"Total Seats in 1 Seater"}
-              handleChange={this.handleNumbers}
-            />
-            <InLineInput
-              inputtype={"number"}
-              name={"totalSeatTwo"}
-              title={"Two Seater "}
-              value={this.state.newUser.totalSeatTwo}
-              placeholder={"Total Seats in 2 Seater"}
-              handleChange={this.handleNumbers}
-            />
-            <InLineInput
-              inputtype={"number"}
-              name={"totalSeatThree"}
-              title={"Three Seater "}
-              value={this.state.newUser.totalSeatThree}
-              placeholder={"Total Seats in 3 Seater"}
-              handleChange={this.handleNumbers}
-            />
-            <InLineInput
-              inputtype={"number"}
-              name={"totalSeatFour"}
-              title={"Four Seater "}
-              value={this.state.newUser.totalSeatFour}
-              placeholder={"Total Seats in 4 Seater"}
-              handleChange={this.handleNumbers}
-            />
-            <br />
-            <label>Available Seating Option For :</label>
-            <br />
-            <InLineInput
-              inputtype={"number"}
-              name={"availableSeatOne"}
-              title={"One Seater "}
-              value={this.state.newUser.availableSeatOne}
-              placeholder={"Available Seats in 1 Seater"}
-              handleChange={this.handleNumbers}
-            />
-            <InLineInput
-              inputtype={"number"}
-              name={"availableSeatTwo"}
-              title={"Two Seater "}
-              value={this.state.newUser.availableSeatTwo}
-              placeholder={"Available Seats in 2 Seater"}
-              handleChange={this.handleNumbers}
-            />
-            <InLineInput
-              inputtype={"number"}
-              name={"availableSeatThree"}
-              title={"Three Seater "}
-              value={this.state.newUser.availableSeatThree}
-              placeholder={"Available Seats in 3 Seater"}
-              handleChange={this.handleNumbers}
-            />
-            <InLineInput
-              inputtype={"number"}
-              name={"availableSeatFour"}
-              title={"Four Seater "}
-              value={this.state.newUser.availableSeatFour}
-              placeholder={"Available Seats in 4 Seater"}
-              handleChange={this.handleNumbers}
-            />
-            <br />
-            <div className=' form-group row'>
-              <label className='col-form-label col'>Food Offered</label>
-
-              <input
-                className='col-4 form-control'
-                type='number'
-                name='timesADay'
-                id='Four Seater '
-                value={this.state.newUser.timesADay}
-                placeholder='Times'
-                onChange={this.handleNumbers}
+              <Input
+                inputtype={"number"}
+                name={"discountOffered"}
+                title={"Discount Offered"}
+                value={this.state.newUser.discountOffered}
+                placeholder={"Enter Discount Offered by Hostel"}
+                handleChange={this.handleNumbers}
+                isValid={this.handleNumberValidity(
+                  this.state.newUser.discountOffered
+                )}
+              />{" "}
+              {/* Discount Offered */}
+              <Input
+                inputtype={"number"}
+                name={"admissionFee"}
+                title={"Admission Fee"}
+                value={this.state.newUser.admissionFee}
+                placeholder={"Enter the Admission Fee"}
+                handleChange={this.handleNumbers}
+                isValid={this.handleNumberValidity(
+                  this.state.newUser.admissionFee
+                )}
+              />{" "}
+              {/* Age */}
+              <br />
+              <label>Monthly Fee </label>
+              <br />
+              <InLineInput
+                inputtype={"number"}
+                name={"monthlyFeeOneSeater"}
+                title={"One Seater"}
+                value={this.state.newUser.monthlyFeeOneSeater}
+                placeholder={"Monthly Fee for One Seater"}
+                handleChange={this.handleNumbers}
+                isValid={this.handleNumberValidity(
+                  this.state.newUser.monthlyFeeOneSeater
+                )}
               />
+              <InLineInput
+                inputtype={"number"}
+                name={"monthlyFeeTwoSeater"}
+                title={"Two Seater"}
+                value={this.state.newUser.monthlyFeeTwoSeater}
+                placeholder={"Monthly Fee for Two Seater"}
+                handleChange={this.handleNumbers}
+                isValid={this.handleNumberValidity(
+                  this.state.newUser.monthlyFeeTwoSeater
+                )}
+              />
+              <InLineInput
+                inputtype={"number"}
+                name={"monthlyFeeThreeSeater"}
+                title={"Three Seater"}
+                value={this.state.newUser.monthlyFeeThreeSeater}
+                placeholder={"Monthly Fee for Three Seater"}
+                handleChange={this.handleNumbers}
+                isValid={this.handleNumberValidity(
+                  this.state.newUser.monthlyFeeThreeSeater
+                )}
+              />
+              <InLineInput
+                inputtype={"number"}
+                name={"monthlyFeeFourSeater"}
+                title={"Four Seater"}
+                value={this.state.newUser.monthlyFeeFourSeater}
+                placeholder={"Monthly Fee for Four Seater"}
+                handleChange={this.handleNumbers}
+                isValid={this.handleNumberValidity(
+                  this.state.newUser.monthlyFeeFourSeater
+                )}
+              />
+              <br />
+              <Input
+                inputtype={"number"}
+                title={"Total Number of Rooms"}
+                name={"totalRooms"}
+                value={this.state.newUser.totalRooms}
+                placeholder={"Enter Total No. of Rooms"}
+                handleChange={this.handleInput}
+                isValid={this.handleNumberValidity(
+                  this.state.newUser.totalRooms
+                )}
+              />{" "}
+              {/* Address of the hostel */}
+              <br />
+              <label>Total Rooms in :</label>
+              <br />
+              <InLineInput
+                inputtype={"number"}
+                name={"totalSeatOne"}
+                title={"One Seater"}
+                value={this.state.newUser.totalSeatOne}
+                placeholder={"Total Seats in 1 Seater"}
+                handleChange={this.handleNumbers}
+              />
+              <InLineInput
+                inputtype={"number"}
+                name={"totalSeatTwo"}
+                title={"Two Seater "}
+                value={this.state.newUser.totalSeatTwo}
+                placeholder={"Total Seats in 2 Seater"}
+                handleChange={this.handleNumbers}
+              />
+              <InLineInput
+                inputtype={"number"}
+                name={"totalSeatThree"}
+                title={"Three Seater "}
+                value={this.state.newUser.totalSeatThree}
+                placeholder={"Total Seats in 3 Seater"}
+                handleChange={this.handleNumbers}
+              />
+              <InLineInput
+                inputtype={"number"}
+                name={"totalSeatFour"}
+                title={"Four Seater "}
+                value={this.state.newUser.totalSeatFour}
+                placeholder={"Total Seats in 4 Seater"}
+                handleChange={this.handleNumbers}
+              />
+              <br />
+              <label>Available Seating Option For :</label>
+              <br />
+              <InLineInput
+                inputtype={"number"}
+                name={"availableSeatOne"}
+                title={"One Seater "}
+                value={this.state.newUser.availableSeatOne}
+                placeholder={"Available Seats in 1 Seater"}
+                handleChange={this.handleNumbers}
+              />
+              <InLineInput
+                inputtype={"number"}
+                name={"availableSeatTwo"}
+                title={"Two Seater "}
+                value={this.state.newUser.availableSeatTwo}
+                placeholder={"Available Seats in 2 Seater"}
+                handleChange={this.handleNumbers}
+              />
+              <InLineInput
+                inputtype={"number"}
+                name={"availableSeatThree"}
+                title={"Three Seater "}
+                value={this.state.newUser.availableSeatThree}
+                placeholder={"Available Seats in 3 Seater"}
+                handleChange={this.handleNumbers}
+              />
+              <InLineInput
+                inputtype={"number"}
+                name={"availableSeatFour"}
+                title={"Four Seater "}
+                value={this.state.newUser.availableSeatFour}
+                placeholder={"Available Seats in 4 Seater"}
+                handleChange={this.handleNumbers}
+              />
+              <br />
+              <div className=' form-group row'>
+                <label className='col-form-label col'>Food Offered</label>
 
-              <label className='col-form-label col'> Times a day</label>
-            </div>
-            <br />
-            <CheckBox
-              title={"Facilities"}
-              name={"facilities"}
-              options={this.state.facilitiesOptions}
-              selectedOptions={this.state.newUser.facilities}
-              handleChange={this.handleFacilities}
-            />{" "}
-            {/* Skill */}
-            <Select
-              title={"Laundry"}
-              name={"laundry"}
-              options={this.state.laundryOptions}
-              value={this.state.newUser.laundry}
-              placeholder={"Select laundry"}
-              handleChange={this.handleInput}
-            />{" "}
-            {/* Age Selection */}
-            <Select
-              title={"Meat"}
-              name={"meat"}
-              options={this.state.meatOptions}
-              value={this.state.newUser.meat}
-              placeholder={"Select time"}
-              handleChange={this.handleInput}
-            />{" "}
-            {/* Age Selection */}
-            <CheckBox
-              title={"Furnitures"}
-              name={"furnitures"}
-              options={this.state.furnituresOptions}
-              selectedOptions={this.state.newUser.furnitures}
-              handleChange={this.handleFurnitures}
-            />{" "}
-            {/* Skill */}
-            <label htmlFor='specialFeatures'> Special Features </label>
-            <div className='form-row'>
-              {this.state.specialFeatures.map((specialFeature, index) => (
-                <Fragment key={index}>
-                  <div className='form-group col-sm-6'>
-                    <input
-                      type='text'
-                      className='form-control'
-                      id='specialFeatures'
-                      name='specialFeatures'
-                      value={specialFeature.name}
-                      onChange={(event) =>
-                        this.handleSpecialFeaturesChange(index, event)
-                      }
-                    />
-                  </div>
+                <input
+                  className='col-4 form-control'
+                  type='number'
+                  name='timesADay'
+                  id='Four Seater '
+                  value={this.state.newUser.timesADay}
+                  placeholder='Times'
+                  onChange={this.handleNumbers}
+                />
 
-                  <div className='form-group col-sm-2'>
-                    <button
-                      className='btn btn-link'
-                      type='button'
-                      onClick={() => this.handleRemoveSpecialFeatures(index)}
-                    >
-                      Remove
-                    </button>
-                  </div>
-                </Fragment>
-              ))}
-            </div>
-            <button
-              className='btn btn-link'
-              type='button'
-              onClick={() => this.handleAddSpecialFeatures()}
-            >
-              Add
-            </button>
-            <br />
-            {/* <div class="row ">
+                <label className='col-form-label col'> Times a day</label>
+              </div>
+              <br />
+              <CheckBox
+                title={"Facilities"}
+                name={"facilities"}
+                options={this.state.facilitiesOptions}
+                selectedOptions={this.state.newUser.facilities}
+                handleChange={this.handleFacilities}
+              />{" "}
+              {/* Skill */}
+              <Select
+                title={"Laundry"}
+                name={"laundry"}
+                options={this.state.laundryOptions}
+                value={this.state.newUser.laundry}
+                placeholder={"Select laundry"}
+                handleChange={this.handleInput}
+              />{" "}
+              {/* Age Selection */}
+              <Select
+                title={"Meat"}
+                name={"meat"}
+                options={this.state.meatOptions}
+                value={this.state.newUser.meat}
+                placeholder={"Select time"}
+                handleChange={this.handleInput}
+              />{" "}
+              {/* Age Selection */}
+              <CheckBox
+                title={"Furnitures"}
+                name={"furnitures"}
+                options={this.state.furnituresOptions}
+                selectedOptions={this.state.newUser.furnitures}
+                handleChange={this.handleFurnitures}
+              />{" "}
+              {/* Skill */}
+              <label htmlFor='specialFeatures'> Special Features </label>
+              <div className='form-row'>
+                {this.state.specialFeatures.map((specialFeature, index) => (
+                  <Fragment key={index}>
+                    <div className='form-group col-sm-6'>
+                      <input
+                        type='text'
+                        className='form-control'
+                        id='specialFeatures'
+                        name='specialFeatures'
+                        value={specialFeature.name}
+                        onChange={(event) =>
+                          this.handleSpecialFeaturesChange(index, event)
+                        }
+                      />
+                    </div>
+
+                    <div className='form-group col-sm-2'>
+                      <button
+                        className='btn btn-danger'
+                        type='button'
+                        onClick={() => this.handleRemoveSpecialFeatures(index)}
+                      >
+                        <i className='fa fa-trash' aria-hidden='true'></i>
+                      </button>
+                    </div>
+                  </Fragment>
+                ))}
+              </div>
+              <button
+                className='btn btn-success mb-1'
+                type='button'
+                onClick={() => this.handleAddSpecialFeatures()}
+              >
+                <i className='fa fa-plus' aria-hidden='true'></i>
+              </button>
+              <br />
+              {/* <div className="row ">
                             <label 
-                            class="col col-form-label "  for="seaterOne">One Seater</label>
+                            className="col col-form-label "  for="seaterOne">One Seater</label>
                             <input 
                             type="number" 
-                            class="col-8 form-control"
+                            className="col-8 form-control"
                             name="seaterOne" 
                             id="seaterOne"
                             value={this.state.newUser.monthlyFee1}
@@ -606,25 +672,30 @@ class ModifiedFrom extends Component {
                             placeholder={' Monthly Fee for one seater' }/>
                         </div> 
                                     */}
-            <Button
-              action={this.handleFormSubmit}
-              type={"primary"}
-              title={"Submit"}
-              style={buttonStyle}
-            />{" "}
-            {/*Submit */}
-            <Button
-              action={this.handleClearForm}
-              type={"secondary"}
-              title={"Clear"}
-              style={buttonStyle}
-            />{" "}
-            {/* Clear the form */}
-          </div>
+            </div>
+          </form>
         </div>
-      </form>
+        <div className='form'>Select Hostel Photos</div>
 
-      <Upload id={this.generateID()} />
+        <Upload id={this.generateID()} />
+
+        <div className='form'>
+          <Button
+            action={this.handleFormSubmit}
+            type={"primary"}
+            title={"Submit"}
+            style={buttonStyle}
+            disable={this.state.isValid}
+          />{" "}
+          {/*Submit */}
+          <Button
+            action={this.handleClearForm}
+            type={"secondary"}
+            title={"Clear"}
+            style={buttonStyle}
+          />{" "}
+          {/* Clear the form */}
+        </div>
       </Fragment>
     );
   }
