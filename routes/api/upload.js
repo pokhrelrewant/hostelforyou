@@ -1,18 +1,23 @@
 const express = require("express");
 const router = express.Router();
-var fs = require("fs");
 var multer = require("multer");
-var upload = multer({ dest: "uploads/" });
-var rimraf = require("rimraf");
-const { writeFile } = require("fs").promises
 
-router.post("/", upload.single("f"), (req, res) => {
-  console.log(req.files.f);
-  writeFile("./uploads/" + req.files.f.name, req.files.f.data)
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+
+var upload = multer({ storage: storage });
+
+router.post("/", upload.array("f", 12), (req, res) => {
   if (req.files === null) {
     return res.status(400).json({ msg: "No file Uploaded" });
   }
-  res.json(req.body);
+  res.json(req.files);
 });
 
 module.exports = router;

@@ -4,7 +4,6 @@ var slugify = require("slugify");
 
 const Hostel = require("../../models/Hostel");
 const validateHostelBody = require("../../middleware/validateHostelBody");
-const { response } = require("express");
 
 router.post("/", async (req, res) => {
   let {
