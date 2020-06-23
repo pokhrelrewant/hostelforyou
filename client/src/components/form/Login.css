@@ -8,9 +8,8 @@ div.form {
   display: block;
   text-align: center;
 }
-form {
+form.center {
   display: inline-block;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
   text-align: left;
 }

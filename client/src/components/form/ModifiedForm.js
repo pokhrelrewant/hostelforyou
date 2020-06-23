@@ -1,5 +1,6 @@
 import React, { Fragment, Component } from "react";
 import validator from "validator";
+import slugify from "slugify";
 import Navbar from "../layout/Navbar";
 import Input from "./Input";
 import InLineInput from "./InLineInput";
@@ -212,8 +213,7 @@ class ModifiedFrom extends Component {
     }));
   }
 
-  async handleFormSubmit(e) {
-    e.preventDefault();
+  getFormData() {
     let userData = {
       name: this.state.newUser.hostelName,
       location: this.state.newUser.hostelAddress,
@@ -256,12 +256,18 @@ class ModifiedFrom extends Component {
       Photos: this.state.newUser.id,
     };
 
-    let isValid =
-      this.handleAlphaInputValidity(userData.name) &&
-      this.handleAlphaInputValidity(userData.location) &&
-      this.handleNumberValidity(userData.phoneNo);
+    return JSON.stringify(userData);
+  }
+
+  async handleFormSubmit(e) {
+    e.preventDefault();
+
+    let isValid = true;
+    // this.handleAlphaInputValidity(userData.name) &&
+    // this.handleAlphaInputValidity(userData.location) &&
+    // this.handleNumberValidity(userData.phoneNo);
     if (isValid) {
-      console.log(userData);
+      console.log("Valid Data");
     }
     // const config = {
     //   headers: {
@@ -307,6 +313,7 @@ class ModifiedFrom extends Component {
         specialFeatures: "",
       },
     });
+    window.scrollTo(0, 0);
   }
 
   // to focus in the username at first
@@ -331,7 +338,7 @@ class ModifiedFrom extends Component {
       <Fragment>
         <Navbar />
         <div className='form'>
-          <form>
+          <form className='center'>
             <h3 className='mt-2'>Add Hostel Details</h3>
             <div className='form-group formFields'>
               {/*   <label>User Name</label> */}
@@ -675,24 +682,26 @@ class ModifiedFrom extends Component {
             </div>
           </form>
         </div>
-        <div className='form'>Select Hostel Photos</div>
-
-        <Upload id={this.generateID()} />
+        <div className='form'>
+          Select Hostel Photos
+          <Upload formData={this.getFormData()} />
+        </div>
 
         <div className='form'>
-          <Button
+          {/* <Button
             action={this.handleFormSubmit}
             type={"primary"}
             title={"Submit"}
             style={buttonStyle}
             disable={this.state.isValid}
-          />{" "}
+          />{" "} */}
           {/*Submit */}
           <Button
             action={this.handleClearForm}
             type={"secondary"}
-            title={"Clear"}
+            title={"Clear Form"}
             style={buttonStyle}
+            size={"block"}
           />{" "}
           {/* Clear the form */}
         </div>

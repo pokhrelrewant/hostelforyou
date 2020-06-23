@@ -2,9 +2,10 @@ import React, { Fragment, useState } from "react";
 import axios from "../../config/axios";
 import { setAlert } from "../../actions/alert";
 import { connect } from "react-redux";
+import "./Login.css";
 
 const Upload = (props) => {
-  const { id, setAlert } = props;
+  const { setAlert } = props;
   const [file, setFile] = useState();
   const [filename, setFilename] = useState("Choose File");
   const [filelength, setFilelength] = useState(0);
@@ -18,30 +19,29 @@ const Upload = (props) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    console.log(props.formData);
+
     console.log(filelength);
     const formData = new FormData();
-    console.log(file[0]);
-    formData.append("f", file[0], filename);
-    console.log(formData.get("f"));
+    Array.from(file).forEach((f) => formData.append("f", f, f.name));
+    formData.append("userData", props.formData);
+    console.log(formData.getAll("userData"));
 
     try {
-      await axios.post("/api/upload", formData, {
+      await axios.post("/api/add_hostel", formData, {
         headers: {
           "content-type": "multipart/form-data",
         },
       });
       setAlert("Images Uploaded Successfully", "success");
-    } catch (error) {
-      if (error.response.status === 500) {
-        console.log("Server Error");
-      }
-    }
+    } catch (error) {}
   };
 
   return (
     <Fragment>
       <div className='form'>
-        <form onSubmit={onSubmit}>
+        <form className='center' onSubmit={onSubmit}>
           <div className='custom-file'>
             <input
               type='file'

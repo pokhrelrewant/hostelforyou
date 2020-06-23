@@ -1,24 +1,47 @@
 import React from "react";
-import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  Font,
+} from "@react-pdf/renderer";
 //import { connect } from "react-redux";
 
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: "column",
-    backgroundColor: "#E4E4E4"
-  },
-  section: {
-    margin: 10,
-    padding: 10,
-    flexGrow: 1
-  }
+Font.register({
+  family: "Oswald",
+  src: "https://fonts.gstatic.com/s/oswald/v13/Y_TKV6o8WovbUd3m_X9aAA.ttf",
 });
 
-const MyDocument = props => (
+const styles = StyleSheet.create({
+  title: {
+    fontSize: 24,
+    textAlign: "center",
+    fontFamily: "Oswald",
+  },
+  page: {
+    flexDirection: "column",
+    backgroundColor: "#E4E4E4",
+    marginLeft: 40,
+    marginRight: 40,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  section: {
+    fontSize: 14,
+    marginRight: 40,
+    textAlign: "justify",
+    fontFamily: "Times-Roman",
+  },
+});
+
+const MyDocument = (props) => (
   <Document>
     <Page size='A4' style={styles.page}>
       <View style={styles.section}>
-        <Text>
+        <Text style={styles.title}>Hostel For You.com</Text>
+        <Text style={styles.section}>
           This is to notify that the bearer of this card {props.name} is
           interested in joining your hostel. We kindly request the hostel
           authority to provide with the information as required by the bearer of
@@ -35,8 +58,8 @@ const MyDocument = props => (
 );
 
 //const mapStateToProps = state => ({
- // hostels: state.retriever,
- // loading: state.retriever.loading
+// hostels: state.retriever,
+// loading: state.retriever.loading
 //});
 
 export default MyDocument;

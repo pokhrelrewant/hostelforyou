@@ -10,3 +10,12 @@ h6 {
 .mySlides {
   display: none;
 }
+
+.wrapper {
+  text-align: center;
+}
+
+.btn-center {
+  position: absolute;
+  /* top: 50%; */
+}

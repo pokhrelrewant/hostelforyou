@@ -3,18 +3,8 @@ const connectDB = require("./config/db");
 
 const app = express();
 const cors = require("cors");
-const fileUpload = require("express-fileupload");
 app.use(cors());
-app.use(
-  fileUpload({
-    limits: {
-      fileSize: 50 * 1024 * 1024,
-      safeFileNames: true,
-      preserveExtension: true,
-      createParentPath: true,
-    },
-  })
-);
+
 connectDB();
 
 app.use(express.json({ extended: false }));

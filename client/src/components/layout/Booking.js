@@ -2,16 +2,18 @@ import React, { Fragment, useState } from "react";
 import MyDocument from "../pdfTemplate/index";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import Navbar from "../layout/Navbar";
+import "./Booking.css";
+import validator from "validator";
 
-const Booking = hostel => {
-  console.log(hostel);
+const Booking = (hostel) => {
   const [formData, setFormData] = useState({
     name: "",
     studentEmail: "",
     studentAddress: "",
     dateToJoin: "",
-    phoneNumber: ""
+    phoneNumber: "",
   });
   const [show, setHide] = useState(false);
 
@@ -20,31 +22,95 @@ const Booking = hostel => {
     studentEmail,
     studentAddress,
     dateToJoin,
-    phoneNumber
+    phoneNumber,
   } = formData;
-
-  const onChange = e =>
+  let nameClassParam = "form-label";
+  const onNameChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-
-  const onSubmit = async e => {
+  };
+  const onEmailChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const onAddressChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const onPhoneChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const onDateChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(hostel);
-    setHide(true);
+    if (
+      // true
+      validateTextInput(name) &&
+      validateTextInput(studentAddress) &&
+      validateEmail(studentEmail) &&
+      validatePhone(phoneNumber)
+    ) {
+      console.log(hostel);
+      setHide(true);
+    }
     // alert("hello");
+  };
+
+  const onClear = (e) => {
+    // e.preventDefault();
+    console.log(e.target.name);
+    setFormData({
+      name: "",
+      studentEmail: "",
+      studentAddress: "",
+      dateToJoin: "",
+      phoneNumber: "",
+    });
+  };
+
+  const validateTextInput = (props) => {
+    return (
+      validator.isAlphanumeric(props) && validator.isLength(props, { min: 3 })
+    );
+    // if (
+    //   validator.isAlphanumeric(props) &&
+    //   validator.isLength(props, { min: 3 })
+    // ) {
+    //   nameClassParam = "form-label";
+    //   return true;
+    // } else {
+    //   nameClassParam = "form-label text-danger";
+    //   return false;
+    // }
+  };
+
+  const validatePhone = (props) => {
+    return (
+      validator.isNumeric(props) &&
+      validator.isLength(props, { min: 6, max: 13 })
+    );
+  };
+  const validateEmail = (props) => {
+    return validator.isEmail(props);
   };
 
   return (
     <Fragment>
       <Navbar />
       <form onSubmit={onSubmit}>
-        <div className='form-group formFields'>
+        <div className='form-group formFields '>
           <div className=' container'>
-            <label> Name</label>
+            <h1>Enter your Details</h1>
+            <p style={{ color: "green" }}>
+              *Please fill up the form below to get discount receipt for
+              selected hostel.*
+            </p>
+            <label className={nameClassParam}> Name</label>
             <input
+              autoFocus
               type='text'
               value={name}
               name='name'
-              onChange={e => onChange(e)}
+              onChange={(e) => onNameChange(e)}
               className='form-control'
               placeholder='Enter Name'
             />
@@ -55,7 +121,7 @@ const Booking = hostel => {
               type='email'
               value={studentEmail}
               name='studentEmail'
-              onChange={e => onChange(e)}
+              onChange={(e) => onEmailChange(e)}
               className='form-control'
               placeholder='Enter Email'
             />
@@ -66,7 +132,7 @@ const Booking = hostel => {
               type='text'
               value={studentAddress}
               name='studentAddress'
-              onChange={e => onChange(e)}
+              onChange={(e) => onAddressChange(e)}
               className='form-control'
               placeholder='Enter Address'
             />
@@ -74,10 +140,10 @@ const Booking = hostel => {
           <div className=' container'>
             <label> Expected Date To Join</label>
             <input
-              type='text'
+              type='month'
               value={dateToJoin}
               name='dateToJoin'
-              onChange={e => onChange(e)}
+              onChange={(e) => onDateChange(e)}
               className='form-control'
               placeholder='Enter expected date to join'
             />
@@ -88,45 +154,52 @@ const Booking = hostel => {
               type='number'
               value={phoneNumber}
               name='phoneNumber'
-              onChange={e => onChange(e)}
+              onChange={(e) => onPhoneChange(e)}
               className='form-control'
               placeholder='Enter Phone Number'
             />
           </div>
         </div>
-        <div className=' container'>
-          <button type='submit' className='btn btn-primary btn-block'>
+        <div className=' container center'>
+          <button type='submit' className='btn btn-primary mr-2'>
             Submit
           </button>
+          <button type='' className='btn btn-secondary ' onClick={onClear}>
+            Clear
+          </button>
+
+          {show && (
+            <div>
+              <button className='btn btn-info  mt-2 mr-2'>
+                <PDFDownloadLink
+                  document={<MyDocument name={name} />}
+                  fileName='reciept.pdf'
+                  style={{
+                    textDecoration: "none",
+                    // padding: "10px",
+                    color: "#FFFFFF",
+                    // backgroundColor: "#f2f2f2",
+                    // border: "1px solid #4a4a4a"
+                  }}
+                >
+                  {({ blob, url, loading, error }) =>
+                    loading ? "Loading document..." : "Get Discount Receipt"
+                  }
+                </PDFDownloadLink>
+              </button>
+              <Link to='/search' className='btn btn-success mt-2'>
+                Search Again
+              </Link>
+            </div>
+          )}
         </div>
       </form>
-      {show && (
-        <div>
-          <button className='btn btn-primary btn-block mt-4'>
-            <PDFDownloadLink
-              document={<MyDocument name={name} />}
-              fileName='reciept.pdf'
-              style={{
-                textDecoration: "none",
-                padding: "10px",
-                color: "#4a4a4a",
-                backgroundColor: "#f2f2f2",
-                border: "1px solid #4a4a4a"
-              }}
-            >
-              {({ blob, url, loading, error }) =>
-                loading ? "Loading document..." : "Download Pdf"
-              }
-            </PDFDownloadLink>
-          </button>
-        </div>
-      )}
     </Fragment>
   );
 };
 
-const mapStateToProps = state => ({
-  hostel: state.retriever.hostel
+const mapStateToProps = (state) => ({
+  hostel: state.retriever.hostel,
 });
 
 export default connect(mapStateToProps)(Booking);

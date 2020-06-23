@@ -65,7 +65,7 @@ const Contact = () => {
             name='message'
             rows='3'
             onChange={(e) => onChange(e)}
-            class='form-control md-textarea'
+            className='form-control md-textarea'
             placeholder='What do you want to ask us?'
           ></textarea>
         </div>

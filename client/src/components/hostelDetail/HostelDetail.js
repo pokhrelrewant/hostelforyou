@@ -167,15 +167,14 @@ const HostelDetail = ({ match, hostel, getPath, path, retHostel }) => {
               </ul>
             </div>
             <hr />
-
-            <p>
-              We accept: <i className='fa fa-credit-card w3-large' />{" "}
-              <i className='fa fa-cc-mastercard w3-large' />{" "}
-              <i className='fa fa-cc-amex w3-large' />{" "}
-              <i className='fa fa-cc-cc-visa w3-large' />
-              <i className='fa fa-cc-paypal w3-large' />
-            </p>
-            <hr />
+            <div className='wrapper'>
+              <Link
+                to='/book'
+                className='btn btn-success btn-lg btn-center mb-5'
+              >
+                Book Now
+              </Link>
+            </div>
           </div>
         </div>
       </div>
