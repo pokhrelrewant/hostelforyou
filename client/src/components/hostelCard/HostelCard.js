@@ -5,8 +5,8 @@ import selectHostel from "../../actions/selectHostel";
 
 const HostelCard = (props) => {
   const { hostel, selectHostel } = props;
-  const hostelData = hostel.hostels.map((hos) => (
-    <div className='card' key={hos.slug}>
+  const hostelData = hostel.hostels.map((hos, index) => (
+    <div className='card' key={index}>
       <Link
         to={"/hostel/" + hos.slug}
         onClick={() => {
@@ -30,7 +30,9 @@ const HostelCard = (props) => {
     </div>
   ));
 
-  return <Fragment>{hostelData}</Fragment>;
+  return (<>
+    <div className="card-columns">{hostelData}</div>
+  </>);
 };
 
 const mapStateToProps = (state) => ({
