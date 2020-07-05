@@ -20,22 +20,30 @@ const Upload = (props) => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(props.formData);
+    console.log(props.isFormValid);
+    if (!props.isFormValid) {
+      setAlert("Please Check the input fields.", "danger");
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    } else {
+      const formData = new FormData();
+      if (file != null) {
+        Array.from(file).forEach((f) => formData.append("f", f, f.name));
+        formData.append("userData", props.formData);
+        console.log(formData.getAll("userData"));
 
-    console.log(filelength);
-    const formData = new FormData();
-    Array.from(file).forEach((f) => formData.append("f", f, f.name));
-    formData.append("userData", props.formData);
-    console.log(formData.getAll("userData"));
-
-    try {
-      await axios.post("/api/add_hostel", formData, {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      });
-      setAlert("Images Uploaded Successfully", "success");
-    } catch (error) {}
+        try {
+          await axios.post("/api/add_hostel", formData, {
+            headers: {
+              "content-type": "multipart/form-data",
+            },
+          });
+          setAlert("Images Uploaded Successfully", "success");
+        } catch (error) {}
+      } else {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+        setAlert("Please Select Hostel Images", "danger");
+      }
+    }
   };
 
   return (
@@ -59,7 +67,7 @@ const Upload = (props) => {
 
           <input
             type='submit'
-            value='upload'
+            value='Add Hostel'
             className='btn btn-primary btn-block'
           />
         </form>

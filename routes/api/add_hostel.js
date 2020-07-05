@@ -62,24 +62,23 @@ router.post("/", upload.array("f", 12), async (req, res) => {
 
   let destPath = `./uploads/${slug}`;
   mv("./uploads/tmp", destPath, { mkdirp: true }, function (err) {});
-
   hostel = new Hostel({
     name,
     slug,
     location,
-    nearbyInstitutions,
+    nearbyInstitutions: JSON.parse(nearbyInstitutions),
     phoneNo,
     discountOffered,
     fee,
     availableSeating,
     hostelFeatures,
-    specialFeatures,
+    specialFeatures: JSON.parse(specialFeatures),
     photos: slug,
   });
   console.log(hostel);
-  // let resp = await hostel.save();
-  // console.log(resp);
-  // res.send("Hostel Added");
+  let resp = await hostel.save();
+  console.log(resp);
+  res.send("Hostel Added");
 });
 
 module.exports = router;

@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   },
   page: {
     flexDirection: "column",
-    backgroundColor: "#E4E4E4",
+    backgroundColor: "#FFFFFF",
     marginLeft: 40,
     marginRight: 40,
     marginTop: 10,

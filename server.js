@@ -10,7 +10,7 @@ connectDB();
 app.use(express.json({ extended: false }));
 
 app.get("/", (req, res) => res.send("API Running"));
-
+app.use("/hostelphotos", express.static("./uploads"));
 app.use("/api/add_hostel", require("./routes/api/add_hostel"));
 app.use("/api/retrieve_hostels", require("./routes/api/retrieve_hostel"));
 app.use("/api/retrieve_hostels_id", require("./routes/api/retrieve_hostel_id"));

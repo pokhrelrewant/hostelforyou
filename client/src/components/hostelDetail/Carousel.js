@@ -1,15 +1,15 @@
 import React, { Fragment } from "react";
 
-const Carousel = ({imgFolder, images}) => {
+const Carousel = ({ imgFolder, images }) => {
   let divs = [];
   let indicators = [];
-  if (images===null || images===undefined) return (<div></div>);
+  if (images === null || images === undefined) return <div></div>;
   for (let i = 1; i < images.length; i++) {
     divs.push(
       <div className='carousel-item' key={i}>
         <img
           className='d-block w-100'
-          src={process.env.PUBLIC_URL + `/uploads/${imgFolder}/${images[i]}`}
+          src={`http://localhost:5000/hostelphotos/${imgFolder}/${images[i]}`}
           style={{ height: "500px" }}
           alt=''
         />
@@ -44,9 +44,7 @@ const Carousel = ({imgFolder, images}) => {
             <img
               className='d-block w-100'
               height='500px'
-              src={
-                process.env.PUBLIC_URL + `/uploads/${imgFolder}/${images[0]}`
-              }
+              src={`http://localhost:5000/hostelphotos/${imgFolder}/${images[0]}`}
               alt='First slide'
             />
           </div>

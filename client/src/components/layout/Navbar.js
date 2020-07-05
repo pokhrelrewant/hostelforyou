@@ -1,11 +1,12 @@
 import React from "react";
+import "./Navbar.css";
 
 const Navbar = () => {
   return (
     <nav className='navbar navbar-expand-sm navbar-light bg-light sticky-top py-2 px-5 '>
       <a className='navbar-brand py-0' href='/'>
         <img
-          src='/CompanyLogo.svg'
+          src='/output-onlinepngtools.png'
           height='50px'
           alt='logo'
           style={{ display: "block", margin: "0 auto" }}

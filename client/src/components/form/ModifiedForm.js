@@ -1,6 +1,5 @@
 import React, { Fragment, Component } from "react";
 import validator from "validator";
-import slugify from "slugify";
 import Navbar from "../layout/Navbar";
 import Input from "./Input";
 import InLineInput from "./InLineInput";
@@ -9,25 +8,12 @@ import Select from "./Select";
 import CheckBox from "./CheckBox";
 import Upload from "./Upload";
 import "./Login.css";
-import axios from "../../config/axios";
-//import uuid from "uuid";
-
-// this needs to be imported from the database
-// data for the drop down menu
 
 class ModifiedFrom extends Component {
   constructor(props) {
     super(props);
     this.inputRef = React.createRef();
     this.state = {
-      isValid: false,
-      validArray: {
-        hostelName: false,
-        hostelAddress: false,
-        phoneNumber: false,
-        discountOffered: false,
-        admissionFee: false,
-      },
       nearByInstitutions: [{ institute: "" }],
       specialFeatures: [{ feature: "" }],
       newUser: {
@@ -222,50 +208,44 @@ class ModifiedFrom extends Component {
       discountOffered: this.state.newUser.discountOffered,
       fee: {
         admission: this.state.newUser.admissionFee,
-        monthly: [
-          {
-            single: this.state.newUser.monthlyFeeOneSeater,
-            double: this.state.newUser.monthlyFeeTwoSeater,
-            triple: this.state.newUser.monthlyFeeThreeSeater,
-            fourS: this.state.newUser.monthlyFeeFourSeater,
-          },
-        ],
+        monthly: {
+          single: this.state.newUser.monthlyFeeOneSeater,
+          double: this.state.newUser.monthlyFeeTwoSeater,
+          triple: this.state.newUser.monthlyFeeThreeSeater,
+          fourS: this.state.newUser.monthlyFeeFourSeater,
+        },
       },
-      availableSeating: [
-        {
-          single: this.state.newUser.totalSeatOne,
-          double: this.state.newUser.totalSeatTwo,
-          triple: this.state.newUser.totalSeatThree,
-          fourS: this.state.newUser.totalSeatFour,
+      availableSeating: {
+        single: this.state.newUser.totalSeatOne,
+        double: this.state.newUser.totalSeatTwo,
+        triple: this.state.newUser.totalSeatThree,
+        fourS: this.state.newUser.totalSeatFour,
+      },
+
+      hostelFeatures: {
+        timesFoodOffered: this.state.newUser.timesADay,
+        notableFeatures: [],
+        laundry: {
+          availablePerWeek: this.state.newUser.laundry,
         },
-      ],
-      hostelFeatures: [
-        {
-          timesFoodOffered: this.state.newUser.timesADay,
-          notableFeatures: [],
-          laundry: [
-            {
-              availablePerWeek: this.state.newUser.laundry,
-            },
-          ],
-          FurnitureAndClothing: this.state.newUser.furnitures,
-        },
-      ],
+
+        FurnitureAndClothing: this.state.newUser.furnitures,
+      },
 
       specialFeatures: JSON.stringify(this.state.specialFeatures),
       Photos: this.state.newUser.id,
     };
-
+    console.log(userData);
     return JSON.stringify(userData);
   }
 
   async handleFormSubmit(e) {
     e.preventDefault();
-
-    let isValid = true;
-    // this.handleAlphaInputValidity(userData.name) &&
-    // this.handleAlphaInputValidity(userData.location) &&
-    // this.handleNumberValidity(userData.phoneNo);
+    console.log("submit clicked");
+    let isValid =
+      this.handleAlphaInputValidity(this.state.newUser.name) &&
+      this.handleAlphaInputValidity(this.state.newUser.location) &&
+      this.handleNumberValidity(this.state.newUser.phoneNo);
     if (isValid) {
       console.log("Valid Data");
     }
@@ -313,7 +293,7 @@ class ModifiedFrom extends Component {
         specialFeatures: "",
       },
     });
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }
 
   // to focus in the username at first
@@ -331,6 +311,16 @@ class ModifiedFrom extends Component {
     if (props === "") return true;
     if (validator.isDecimal(props)) return true;
     else return false;
+  }
+
+  handleFormValidity() {
+    if (
+      this.handleAlphaInputValidity(this.state.newUser.hostelName) &&
+      this.handleAlphaInputValidity(this.state.newUser.hostelAddress) &&
+      this.handleNumberValidity(this.state.newUser.phoneNumber)
+    ) {
+      return true;
+    } else return false;
   }
 
   render() {
@@ -684,7 +674,10 @@ class ModifiedFrom extends Component {
         </div>
         <div className='form'>
           Select Hostel Photos
-          <Upload formData={this.getFormData()} />
+          <Upload
+            formData={this.getFormData()}
+            isFormValid={this.handleFormValidity()}
+          />
         </div>
 
         <div className='form'>

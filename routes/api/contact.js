@@ -19,16 +19,20 @@ router.post("/", async (req, res) => {
     "Name: " + name + "\n" + "Email: " + email + "\n" + "Message: " + message;
 
   // send mail with defined transport object
-  let info = await transporter.sendMail({
-    from: '"Hostel for you" <hostelforyou@gmail.com>',
-    to: "pokhrelrewant@gmail.com",
-    subject: "Information abount a Potential Client.",
-    text: text,
-    html: "",
-  });
+  try {
+    let info = await transporter.sendMail({
+      from: '"Hostel for you" <hostelforyou@gmail.com>',
+      to: "pokhrelrewant@gmail.com",
+      subject: "Information abount a Potential Client.",
+      text: text,
+      html: "",
+    });
 
-  console.log("Message sent: %s", info.messageId);
-  res.send("success");
+    console.log("Message sent: %s", info.messageId);
+    res.send("success");
+  } catch (error) {
+    throw error;
+  }
 });
 
 module.exports = router;

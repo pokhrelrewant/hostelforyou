@@ -18,30 +18,25 @@ const HostelSchema = new mongoose.Schema({
   },
   fee: {
     admission: Number,
-    monthly: [
-      { single: Number, double: Number, triple: Number, fourS: Number },
-    ],
+    monthly: { single: Number, double: Number, triple: Number, fourS: Number },
   },
-  availableSeating: [
-    {
-      single: Number,
-      double: Number,
-      triple: Number,
-      fourS: Number,
+  availableSeating: {
+    single: Number,
+    double: Number,
+    triple: Number,
+    fourS: Number,
+  },
+
+  hostelFeatures: {
+    timesFoodOffered: Number,
+    notableFeatures: Array,
+    laundry: {
+      availablePerWeek: String,
     },
-  ],
-  hostelFeatures: [
-    {
-      timesFoodOffered: Number,
-      notableFeatures: Array,
-      laundry: [
-        {
-          availablePerWeek: String,
-        },
-      ],
-      furnitureAndClothing: Array,
-    },
-  ],
+
+    furnitureAndClothing: Array,
+  },
+
   specialFeatures: [{}],
   photos: {
     type: String,

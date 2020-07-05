@@ -7,7 +7,7 @@ const Hostel = require("../../models/Hostel");
 router.post("/", async (req, res) => {
   objs = req.body;
   let query = await Hostel.findOne({ slug: objs.slug });
-  const directoryPath = `client/public/uploads/${
+  const directoryPath = `./uploads/${
     query.photos ? query.photos : "undefined"
   }`;
   fs.readdir(directoryPath, function (err, files) {

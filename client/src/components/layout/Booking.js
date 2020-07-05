@@ -52,7 +52,6 @@ const Booking = (hostel) => {
       console.log(hostel);
       setHide(true);
     }
-    // alert("hello");
   };
 
   const onClear = (e) => {
@@ -96,7 +95,7 @@ const Booking = (hostel) => {
   return (
     <Fragment>
       <Navbar />
-      <form onSubmit={onSubmit}>
+      <form className='container containerNirav' onSubmit={onSubmit}>
         <div className='form-group formFields '>
           <div className=' container'>
             <h1>Enter your Details</h1>

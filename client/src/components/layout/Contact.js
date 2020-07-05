@@ -1,8 +1,12 @@
 import React, { Fragment, useState } from "react";
 import Navbar from "./Navbar";
 import axios from "../../config/axios";
+import validator from "validator";
+import { connect } from "react-redux";
+import { setAlert } from "../../actions/alert";
 
-const Contact = () => {
+const Contact = (props) => {
+  const { setAlert } = props;
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,7 +20,6 @@ const Contact = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -24,16 +27,39 @@ const Contact = () => {
     };
 
     const body = JSON.stringify({ name, email, message });
-    try {
-      const res = await axios.post("/api/contact", body, config);
-    } catch (err) {}
+
+    if (validator.isEmail(email) && validator.isAlpha(name)) {
+      try {
+        setAlert("Please Wait we are sending your message...", "warning");
+        const res = await axios.post("/api/contact", body, config);
+
+        setAlert(
+          "Thank you for Contacting us.. We will reach out soon.",
+          "success"
+        );
+        setFormData({
+          name: "",
+          email: "",
+          message: "",
+        });
+      } catch (err) {
+        setAlert("Something went wrong, Please try again.", "danger");
+        setFormData({
+          name: "",
+          email: "",
+          message: "",
+        });
+      }
+    } else {
+      setAlert("Please Check the form and try again.", "danger");
+    }
   };
 
   return (
     <Fragment>
       <Navbar />
-      <form onSubmit={onSubmit}>
-        <div className=' container mt-4 '>
+      <form className='container containerNirav' onSubmit={onSubmit}>
+        <div className='mt-4 '>
           <h1>Contact Us</h1>
           <label> Name</label>
           <input
@@ -46,7 +72,7 @@ const Contact = () => {
           />
         </div>
 
-        <div className=' container mt-3 '>
+        <div className=' mt-3 '>
           <label> Email</label>
           <input
             type='text'
@@ -57,7 +83,7 @@ const Contact = () => {
             placeholder='Enter E-mail'
           />
         </div>
-        <div className=' container mt-3 '>
+        <div className='mt-3 '>
           <label> Message</label>
           <textarea
             type='text'
@@ -69,7 +95,7 @@ const Contact = () => {
             placeholder='What do you want to ask us?'
           ></textarea>
         </div>
-        <div className=' container mt-3 '>
+        <div className='mt-3 '>
           <button type='submit' className='btn btn-info d-flex'>
             Submit
           </button>
@@ -78,5 +104,4 @@ const Contact = () => {
     </Fragment>
   );
 };
-
-export default Contact;
+export default connect(null, { setAlert })(Contact);

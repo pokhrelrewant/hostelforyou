@@ -30,7 +30,7 @@ const Search = ({ retriever }) => {
     setLoading(false);
     var myElement = document.getElementById("searchBar");
     var topPos = myElement.offsetTop;
-    console.log(topPos);
+    window.scrollTo({ top: topPos, left: 0, behavior: "smooth" });
   };
 
   return (
