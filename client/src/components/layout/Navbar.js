@@ -1,32 +1,33 @@
 import React from "react";
 import "./Navbar.css";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
     <nav className='navbar navbar-expand-sm navbar-light bg-light sticky-top py-2 px-5 '>
-      <a className='navbar-brand py-0' href='/'>
+      <Link className='navbar-brand py-0' to='/'>
         <img
           src='/output-onlinepngtools.png'
           height='50px'
           alt='logo'
           style={{ display: "block", margin: "0 auto" }}
         />
-      </a>
+      </Link>
       <ul className='navbar-nav ml-auto py-0'>
         <li className='nav-item topnav-right'>
-          <a className='nav-link' href='/'>
+          <Link className='nav-link' to='/'>
             Home
-          </a>
+          </Link>
         </li>
         <li className='nav-item '>
-          <a className='nav-link' href='/search'>
+          <Link className='nav-link' to='/search'>
             Search
-          </a>
+          </Link>
         </li>
         <li className='nav-item '>
-          <a className='nav-link' href='/contact'>
+          <Link className='nav-link' to='/contact'>
             Contact
-          </a>
+          </Link>
         </li>
       </ul>
     </nav>

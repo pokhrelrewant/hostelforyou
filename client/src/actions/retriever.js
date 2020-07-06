@@ -18,7 +18,7 @@ const retriever = (name, nearbyInstitutions, location) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: RETRIEVE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      payload: { msg: "Server Error" },
     });
   }
 };

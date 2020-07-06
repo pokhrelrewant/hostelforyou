@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
 import "./Landing1.css";
@@ -7,7 +7,6 @@ const Landing = () => {
   return (
     <Fragment>
       <Navbar />
-
       <img src='pablo-welcome.jpg' className='mainimg' alt='welcome' />
       <div className='landing'>
         <main role='main' className='inner cover '>

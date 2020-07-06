@@ -30,9 +30,17 @@ const HostelCard = (props) => {
     </div>
   ));
 
-  return (<>
-    <div className="card-columns">{hostelData}</div>
-  </>);
+  return (
+    <>
+      <style>
+        {`
+      .card {
+        height:300px
+      }`}
+      </style>
+      <div className='card-columns'>{hostelData}</div>
+    </>
+  );
 };
 
 const mapStateToProps = (state) => ({
